@@ -5,6 +5,7 @@
 
 # Gotham Noir
 
+[![Website](https://img.shields.io/badge/website-gothamnoir.zainahmed.net-15171A?style=flat-square&labelColor=101215&color=F0C946)](https://gothamnoir.zainahmed.net)
 [![Validate Gotham Noir](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml/badge.svg)](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-15171A?style=flat-square&labelColor=101215&color=F0C946)](LICENSE)
 [![4 Dark Variants](https://img.shields.io/badge/variants-4_dark_only-15171A?style=flat-square&labelColor=101215&color=63C794)](#the-4-dark-variants)
@@ -150,6 +151,7 @@ python3 -m unittest discover -s tests -v
 cd packages/vscode && npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
 ```
 
+- **Website:** [gothamnoir.zainahmed.net](https://gothamnoir.zainahmed.net)
 - **Maintainer:** Zain Ahmed ([`@thezaynahmed`](https://github.com/thezaynahmed) | [zainahmed.net](https://zainahmed.net/))
 - **Governance & Community:** [Contributing](CONTRIBUTING.md) | [Code of Conduct](CODE_OF_CONDUCT.md) | [Security Policy](SECURITY.md) | [Publishing Guide](PUBLISH.md) | [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues)
 - **Independent Project Notice:** Gotham Noir is an independent, original open-source color system created by Zain Ahmed and is not affiliated with or endorsed by any studio or publisher.
