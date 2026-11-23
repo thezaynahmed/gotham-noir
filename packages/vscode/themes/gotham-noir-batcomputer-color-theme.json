@@ -480,21 +480,26 @@
       "name": "Detective Mode \u2014 Functions & Methods",
       "scope": [
         "entity.name.function",
+        "entity.name.function.go",
+        "entity.name.function.macro.rust",
         "meta.function-call.generic",
         "support.function",
         "support.function.console",
-        "support.function.builtin"
+        "support.function.builtin",
+        "support.function.macro.rust"
       ],
       "settings": {
         "foreground": "#72B4F5"
       }
     },
     {
-      "name": "Ace Chemicals Violet \u2014 Decorators & Python Magic",
+      "name": "Ace Chemicals Violet \u2014 Decorators, Go Packages & Python Magic",
       "scope": [
         "meta.decorator",
         "entity.name.function.decorator",
         "punctuation.definition.decorator",
+        "keyword.package.go",
+        "keyword.import.go",
         "support.function.magic.python",
         "support.variable.magic.python"
       ],
@@ -515,6 +520,9 @@
       "name": "GCPD Signal \u2014 Classes, Types, Interfaces & Namespaces",
       "scope": [
         "entity.name.type",
+        "entity.name.type.go",
+        "entity.name.type.rust",
+        "entity.name.type.terraform",
         "entity.name.class",
         "entity.name.namespace",
         "entity.other.inherited-class",
@@ -553,6 +561,7 @@
         "meta.object-literal.key",
         "support.type.property-name",
         "support.type.property-name.json",
+        "support.type.property-name.yaml",
         "entity.name.tag.yaml",
         "entity.name.label.terraform",
         "variable.other.member.terraform",

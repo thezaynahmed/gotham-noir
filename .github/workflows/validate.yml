@@ -33,3 +33,58 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Ensure generated text outputs have no uncommitted drift
         run: git diff --exit-code -- . ':(exclude)*.png'
+
+  validate-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Pillow
+        run: pip install pillow
+      - name: Validate macOS Terminal.app plists & NSKeyedArchiver blobs via AppKit
+        run: |
+          plutil -lint ports/macos-terminal/*.terminal
+          bash -n ports/macos-terminal/apply-macos-terminal.sh
+          python3 -m unittest tests.test_themes.GothamNoirTests.test_macos_terminal_appkit_roundtrip -v
+
+  validate-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse PowerShell scripts and test Windows Terminal installer + PSReadLine
+        run: |
+          $ErrorActionPreference = "Stop"
+          foreach ($file in @("ports/windows-terminal/install-windows-terminal.ps1", "ports/windows-terminal/gotham-noir-psreadline.ps1")) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $file), [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              throw "PowerShell parse errors in ${file}: $($errors | Out-String)"
+            }
+          }
+
+          $psrColors = & ./ports/windows-terminal/gotham-noir-psreadline.ps1 -Variant batcomputer -PassThru
+          if ($psrColors["Command"] -ne "#72b4f5") {
+            throw "Unexpected Batcomputer PSReadLine Command color: $($psrColors['Command'])"
+          }
+
+          $mockSettings = Join-Path $env:RUNNER_TEMP "wt-settings.json"
+          $mockFragment = Join-Path $env:RUNNER_TEMP "wt-fragments"
+          @{ schemes = @(@{ name = "My Custom Theme"; background = "#111111" }) } | ConvertTo-Json -Depth 5 | Set-Content -Path $mockSettings -Encoding UTF8
+
+          & ./ports/windows-terminal/install-windows-terminal.ps1 -Variant "Batcomputer" -SettingsPath $mockSettings -FragmentDir $mockFragment
+
+          if (-not (Test-Path "$mockSettings.bak")) { throw "Missing settings backup" }
+          $updated = Get-Content $mockSettings -Raw | ConvertFrom-Json
+          if ($updated.schemes.Count -ne 5) { throw "Expected 5 schemes (1 custom + 4 Gotham Noir), got $($updated.schemes.Count)" }
+          if ($updated.profiles.defaults.colorScheme -ne "Gotham Noir - Batcomputer") {
+            throw "Expected Gotham Noir - Batcomputer default scheme, got $($updated.profiles.defaults.colorScheme)"
+          }
+          $frag = Get-Content (Join-Path $mockFragment "themes.json") -Raw | ConvertFrom-Json
+          if ($frag.schemes.Count -ne 4) { throw "Expected 4 fragment schemes, got $($frag.schemes.Count)" }
+          Write-Host "Windows Terminal & PowerShell verification passed"

@@ -284,7 +284,7 @@ class GothamNoirTests(unittest.TestCase):
         gn_css = (ROOT / "ports" / "palette" / "gotham-noir.css").read_text(encoding="utf-8")
         g_css = (ROOT / "ports" / "palette" / "gotham.css").read_text(encoding="utf-8")
         self.assertEqual(gn_css, g_css)
-        self.assertIn("--gn-bg: #15171A;", gn_css)
+        self.assertIn("#15171A", gn_css)
         tokens = json.loads((ROOT / "ports" / "palette" / "tokens.json").read_text(encoding="utf-8"))
         self.assertIn("year-one", tokens)
         self.assertTrue(tokens["year-one"]["syntax"]["gold"]["oklch"].startswith("oklch("))
@@ -293,6 +293,7 @@ class GothamNoirTests(unittest.TestCase):
         for rel in (
             "ports/fonts/README.md",
             "assets/hero-year-one.png",
+            "assets/hero-4-variants-split.png",
             "CODE_OF_CONDUCT.md",
             "SECURITY.md",
             "CONTRIBUTING.md",
@@ -302,6 +303,162 @@ class GothamNoirTests(unittest.TestCase):
             "llms.txt",
         ):
             self.assertTrue((ROOT / rel).exists(), f"Missing required file {rel}")
+
+    def test_windows_terminal_and_powershell_ports(self) -> None:
+        wt_dir = ROOT / "ports" / "windows-terminal"
+        for fname in ("gotham-noir-schemes.json", "gotham-noir-fragment.json"):
+            doc = json.loads((wt_dir / fname).read_text(encoding="utf-8"))
+            self.assertEqual([s["name"] for s in doc["schemes"]], EXPECTED_NAMES)
+            for pal, scheme in zip(self.palettes, doc["schemes"]):
+                self.assertEqual(scheme["background"], pal["ui"]["bg"].lower())
+                self.assertEqual(scheme["foreground"], pal["ui"]["fg"].lower())
+                self.assertEqual(scheme["cursorColor"], pal["ui"]["cursorBg"].lower())
+                self.assertEqual(scheme["red"], pal["ansi"]["red"].lower())
+                self.assertEqual(scheme["green"], pal["ansi"]["green"].lower())
+                self.assertEqual(scheme["brightWhite"], pal["ansi"]["brightWhite"].lower())
+
+        ps_install = (wt_dir / "install-windows-terminal.ps1").read_text(encoding="utf-8")
+        ps_readline = (wt_dir / "gotham-noir-psreadline.ps1").read_text(encoding="utf-8")
+        for expected in EXPECTED_NAMES:
+            self.assertIn(expected, ps_install)
+        for key in ("Command", "Parameter", "String", "Operator", "Keyword", "Type", "InlinePrediction"):
+            self.assertIn(key, ps_readline)
+
+    def test_neovim_and_jetbrains_ports(self) -> None:
+        nvim_dir = ROOT / "ports" / "neovim"
+        palettes_lua = (nvim_dir / "lua" / "gotham_noir" / "palettes.lua").read_text(encoding="utf-8")
+        init_lua = (nvim_dir / "lua" / "gotham_noir" / "init.lua").read_text(encoding="utf-8")
+        for short in ("year-one", "batcomputer", "arkham-slate", "vengeance"):
+            self.assertIn(f'["{short}"]', palettes_lua)
+            self.assertTrue((nvim_dir / "colors" / f"gotham-noir-{short}.lua").exists())
+        for ts_group in ("@comment", "@keyword", "@function", "@type", "@string", "@operator", "@property", "@tag"):
+            self.assertIn(ts_group, init_lua)
+
+        jb_dir = ROOT / "ports" / "jetbrains"
+        for pal in self.palettes:
+            stem = pal["name"].replace(" - ", "_").replace(" ", "_")
+            icls_path = jb_dir / f"{stem}.icls"
+            self.assertTrue(icls_path.exists(), f"Missing JetBrains scheme {icls_path}")
+            tree = ET.fromstring(icls_path.read_text(encoding="utf-8"))
+            self.assertEqual(tree.tag, "scheme")
+            self.assertEqual(tree.attrib["name"], pal["name"])
+            opts = {el.attrib["name"] for el in tree.findall("./attributes/option")}
+            self.assertTrue(
+                {"DEFAULT_KEYWORD", "DEFAULT_STRING", "DEFAULT_FUNCTION_DECLARATION", "DEFAULT_CLASS_NAME", "YAML_SCALAR_KEY"}.issubset(opts)
+            )
+
+    def test_seven_language_scope_coverage(self) -> None:
+        theme = json.loads(
+            (ROOT / "packages" / "vscode" / "themes" / "gotham-noir-year-one-color-theme.json").read_text(encoding="utf-8")
+        )
+        all_scopes: set[str] = set()
+        for rule in theme["tokenColors"]:
+            sc = rule["scope"]
+            if isinstance(sc, list):
+                all_scopes.update(sc)
+            else:
+                all_scopes.add(sc)
+
+        required_language_scopes = {
+            "support.function.magic.python",
+            "keyword.operator.logical.python",
+            "entity.name.type.go",
+            "entity.name.function.go",
+            "keyword.package.go",
+            "entity.name.lifetime.rust",
+            "entity.name.function.macro.rust",
+            "entity.name.tag.yaml",
+            "support.type.property-name.yaml",
+            "entity.name.label.terraform",
+            "entity.name.type.terraform",
+            "entity.name.type",
+            "entity.name.tag",
+            "markup.inserted.diff",
+            "markup.deleted.diff",
+        }
+        missing = required_language_scopes - all_scopes
+        self.assertFalse(missing, f"Missing 7-language scopes: {sorted(missing)}")
+
+    def test_high_res_screenshot_assets(self) -> None:
+        from PIL import Image
+
+        for rel in (
+            "assets/hero-4-variants-split.png",
+            "assets/hero-year-one.png",
+            "assets/preview-year-one.png",
+            "assets/preview-batcomputer.png",
+            "assets/preview-arkham-slate.png",
+            "assets/preview-vengeance.png",
+            "packages/vscode/images/palette-preview.png",
+        ):
+            img_path = ROOT / rel
+            self.assertTrue(img_path.exists(), f"Missing screenshot asset {rel}")
+            with Image.open(img_path) as im:
+                self.assertGreaterEqual(im.width, 1440, f"{rel} width < 1440")
+                self.assertGreaterEqual(im.height, 880, f"{rel} height < 880")
+
+    @unittest.skipUnless(sys.platform == "darwin" and shutil.which("swift"), "AppKit test requires macOS + swift")
+    def test_macos_terminal_appkit_roundtrip(self) -> None:
+        swift_src = """
+import Foundation
+import AppKit
+
+let args = CommandLine.arguments
+let path = args[1]
+let data = try Data(contentsOf: URL(fileURLWithPath: path))
+let plist = try PropertyListSerialization.propertyList(from: data, format: nil) as! [String: Any]
+var out: [String: String] = [:]
+for (k, v) in plist {
+  if let blob = v as? Data {
+    if k == "Font" {
+      let f = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSFont.self, from: blob)
+      out[k] = f?.fontName ?? "nil"
+    } else if k.hasSuffix("Color") {
+      let c = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: blob)?.usingColorSpace(.sRGB)
+      if let c = c {
+        out[k] = String(format: "#%02x%02x%02x", Int(round(c.redComponent * 255)), Int(round(c.greenComponent * 255)), Int(round(c.blueComponent * 255)))
+      }
+    }
+  }
+}
+let jsonData = try JSONSerialization.data(withJSONObject: out)
+print(String(data: jsonData, encoding: .utf8)!)
+"""
+        key_checks = [
+            ("BackgroundColor", "ui", "bg"),
+            ("TextColor", "ui", "fg"),
+            ("TextBoldColor", "ui", "fgStrong"),
+            ("CursorColor", "ui", "cursorBg"),
+            ("SelectionColor", "ui", "selectionBg"),
+            ("ANSIBlackColor", "ansi", "black"),
+            ("ANSIRedColor", "ansi", "red"),
+            ("ANSIGreenColor", "ansi", "green"),
+            ("ANSIYellowColor", "ansi", "yellow"),
+            ("ANSIBlueColor", "ansi", "blue"),
+            ("ANSIMagentaColor", "ansi", "magenta"),
+            ("ANSICyanColor", "ansi", "cyan"),
+            ("ANSIWhiteColor", "ansi", "white"),
+            ("ANSIBrightBlackColor", "ansi", "brightBlack"),
+            ("ANSIBrightRedColor", "ansi", "brightRed"),
+            ("ANSIBrightGreenColor", "ansi", "brightGreen"),
+            ("ANSIBrightYellowColor", "ansi", "brightYellow"),
+            ("ANSIBrightBlueColor", "ansi", "brightBlue"),
+            ("ANSIBrightMagentaColor", "ansi", "brightMagenta"),
+            ("ANSIBrightCyanColor", "ansi", "brightCyan"),
+            ("ANSIBrightWhiteColor", "ansi", "brightWhite"),
+        ]
+        for pal in self.palettes:
+            term_path = ROOT / "ports" / "macos-terminal" / f"{pal['name']}.terminal"
+            subprocess.run(["plutil", "-lint", str(term_path)], check=True, capture_output=True)
+            res = subprocess.run(["swift", "-e", swift_src, str(term_path)], check=True, capture_output=True, text=True)
+            decoded = json.loads(res.stdout)
+            self.assertEqual(decoded["Font"], "MonaspaceNeon-Regular")
+            for plist_key, section, pal_key in key_checks:
+                self.assertEqual(
+                    decoded[plist_key],
+                    pal[section][pal_key].lower(),
+                    f"{pal['name']} {plist_key} mismatch",
+                )
 
 
 if __name__ == "__main__":

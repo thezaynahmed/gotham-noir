@@ -1,6 +1,8 @@
 <p align="center">
   <img src="./assets/icon-512.png" width="72" alt="Gotham Noir emblem"><br>
-  <img src="./assets/hero-year-one.png" width="100%" alt="Gotham Noir Year One real code window specimen">
+  <strong>Darkness, engineered for developers.</strong><br>
+  <sub>One identity. Four atmospheres. Every developer environment.</sub><br><br>
+  <img src="./assets/hero-4-variants-split.png" width="100%" alt="Gotham Noir 4 atmospheres side-by-side across TypeScript, Python, Rust, Go and Kubernetes">
 </p>
 
 # Gotham Noir
@@ -74,8 +76,22 @@ code --install-extension gotham-noir-1.0.0.vsix   # or: cursor / windsurf / anti
 ## The 4 Dark Variants
 
 <p align="center">
-  <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 dark variants real code specimen grid">
+  <img src="./assets/hero-year-one.png" width="100%" alt="Gotham Noir Year One full IDE and Ghostty terminal capture">
 </p>
+
+<details>
+  <summary>View full high-resolution screenshots for Batcomputer, Arkham Slate, and Vengeance</summary>
+
+#### Gotham Noir - Batcomputer (Python 3.13 + MLOps)
+<img src="./assets/preview-batcomputer.png" width="100%" alt="Gotham Noir Batcomputer screenshot">
+
+#### Gotham Noir - Arkham Slate (Rust + Terraform HCL)
+<img src="./assets/preview-arkham-slate.png" width="100%" alt="Gotham Noir Arkham Slate screenshot">
+
+#### Gotham Noir - Vengeance (Go + Git Diff)
+<img src="./assets/preview-vengeance.png" width="100%" alt="Gotham Noir Vengeance screenshot">
+
+</details>
 
 | Variant | Canvas | Text | Accent | WCAG / APCA Lc | Best For |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -92,7 +108,11 @@ code --install-extension gotham-noir-1.0.0.vsix   # or: cursor / windsurf / anti
 | :--- | :--- | :--- |
 | **[Zed](packages/zed/)** | Official `v0.2.0` editor theme family + `extension.toml` | [`packages/zed/`](packages/zed/) |
 | **[VS Code / Cursor / Windsurf / Antigravity IDE](packages/vscode/)** | `.vsix` extension (all 4 variants, 2027 AI agent tokens) | [`packages/vscode/`](packages/vscode/) |
+| **[Neovim](ports/neovim/)** | `lazy.nvim` Lua colorscheme plugin + Treesitter + LSP | [`ports/neovim/`](ports/neovim/) |
+| **[JetBrains](ports/jetbrains/)** | `.icls` XML schemes for IntelliJ IDEA, PyCharm, GoLand, RustRover | [`ports/jetbrains/`](ports/jetbrains/) |
 | **[Ghostty](ports/ghostty/)** | Native themes (`ghostty +validate-config` verified) | [`ports/ghostty/`](ports/ghostty/) |
+| **[Windows Terminal & PowerShell](ports/windows-terminal/)** | Store/Preview/Unpackaged installer + JSON Fragment + `PSReadLine` | [`ports/windows-terminal/`](ports/windows-terminal/) |
+| **[macOS Terminal.app](ports/macos-terminal/)** | AppKit `NSKeyedArchiver` `.terminal` profiles + curl one-liner | [`ports/macos-terminal/`](ports/macos-terminal/) |
 | **[Warp](ports/warp/)** | Terminal theme YAML files (`warpdotdev/themes` ready) | [`ports/warp/`](ports/warp/) |
 | **[Herdr](ports/herdr/)** | App themes (4 dark variants + warm daylight light) + syntax mod | [`ports/herdr/`](ports/herdr/) |
 | **[GitHub](ports/github/)** | Stylus UserStyle for GitHub UI, diffs, and code blocks | [`ports/github/`](ports/github/) |
@@ -103,7 +123,7 @@ code --install-extension gotham-noir-1.0.0.vsix   # or: cursor / windsurf / anti
 | **[Palette](ports/palette/)** | `gotham-noir.css`, `gotham.css`, and W3C `tokens.json` (hex + OKLCH) | [`ports/palette/`](ports/palette/) |
 | **[Fonts](ports/fonts/)** | Dyslexia & readability typography presets (`Monaspace`, `Intel One`, `Atkinson`) | [`ports/fonts/`](ports/fonts/) |
 | **[Kitty / Alacritty / WezTerm](ports/kitty/)** | Native Kitty (`kitty +kitten themes` merged!), Alacritty TOML, WezTerm Lua | [`ports/kitty/`](ports/kitty/), [`ports/alacritty/`](ports/alacritty/), [`ports/wezterm/`](ports/wezterm/) |
-| **[iTerm2 / macOS Terminal / Windows Terminal](ports/iterm2/)** | `.itermcolors`, XML `.terminal` plists, Windows Terminal JSON | [`ports/iterm2/`](ports/iterm2/), [`ports/macos-terminal/`](ports/macos-terminal/), [`ports/windows-terminal/`](ports/windows-terminal/) |
+| **[iTerm2](ports/iterm2/)** | `.itermcolors` Apple XML plists + Dynamic Profiles JSON | [`ports/iterm2/`](ports/iterm2/) |
 | **[Paradev / Antigravity App / tmux / Zsh](ports/paradev/)** | Paradev JSON, Regular Antigravity 3-color presets, tmux split dimming, `LS_COLORS` | [`ports/paradev/`](ports/paradev/), [`ports/antigravity-app/`](ports/antigravity-app/), [`ports/tmux/`](ports/tmux/) |
 
 ---
