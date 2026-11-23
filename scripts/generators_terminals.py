@@ -361,7 +361,7 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
         ")\n\n"
         '$ErrorActionPreference = "Stop"\n\n'
         "function Remove-JsonComments {\n"
-        "    param([Parameter(Mandatory)][string]$JsonText)\n"
+        "    param([Parameter(Mandatory)][AllowEmptyString()][string]$JsonText)\n"
         "    $sb = [System.Text.StringBuilder]::new($JsonText.Length)\n"
         "    $inString = $false\n"
         "    $escaped = $false\n"

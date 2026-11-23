@@ -11,7 +11,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 function Remove-JsonComments {
-    param([Parameter(Mandatory)][string]$JsonText)
+    param([Parameter(Mandatory)][AllowEmptyString()][string]$JsonText)
     $sb = [System.Text.StringBuilder]::new($JsonText.Length)
     $inString = $false
     $escaped = $false

@@ -111,4 +111,10 @@ jobs:
           }
           $frag = [System.IO.File]::ReadAllText((Join-Path $mockFragment "themes.json"), [System.Text.UTF8Encoding]::new($false)) | ConvertFrom-Json
           if ($frag.schemes.Count -ne 4) { throw "Expected 4 fragment schemes, got $($frag.schemes.Count)" }
+
+          $emptyBomSettings = Join-Path $env:RUNNER_TEMP "wt-empty-bom.json"
+          [System.IO.File]::WriteAllBytes($emptyBomSettings, [byte[]]@(0xEF, 0xBB, 0xBF))
+          & ./ports/windows-terminal/install-windows-terminal.ps1 -Variant "Year One" -SettingsPath $emptyBomSettings -SkipFragment
+          $emptyUpdated = [System.IO.File]::ReadAllText($emptyBomSettings, [System.Text.UTF8Encoding]::new($false)) | ConvertFrom-Json
+          if ($emptyUpdated.schemes.Count -ne 4) { throw "Expected 4 schemes on empty BOM settings fallback, got $($emptyUpdated.schemes.Count)" }
           Write-Host "Windows Terminal & PowerShell verification passed"
