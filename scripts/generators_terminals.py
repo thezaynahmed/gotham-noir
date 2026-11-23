@@ -303,6 +303,8 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
     for pal in palettes:
         short_slug = pal["slug"].replace("gotham-noir-", "")
         ui, syn = pal["ui"], pal["syntax"]
+        sel_bg = [int(round(c * 255)) for c in hex_to_rgb01(ui["selectionBg"])]
+        sel_fg = [int(round(c * 255)) for c in hex_to_rgb01(ui["fgStrong"])]
         psr_blocks.append(
             f'    "{short_slug}" = @{{\n'
             f'        Command          = "{syn["blue"].lower()}"\n'
@@ -317,7 +319,7 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
             f'        Member           = "{syn["cyan"].lower()}"\n'
             f'        Error            = "{syn["crimson"].lower()}"\n'
             f'        InlinePrediction = "{ui["fgMuted"].lower()}"\n'
-            f'        Selection        = "{ui["selectionBg"].lower()}"\n'
+            f'        Selection        = "$([char]27)[48;2;{sel_bg[0]};{sel_bg[1]};{sel_bg[2]};38;2;{sel_fg[0]};{sel_fg[1]};{sel_fg[2]}m"\n'
             f'        Default          = "{ui["fg"].lower()}"\n'
             f'    }}'
         )
@@ -334,7 +336,11 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
         + "\n}\n\n"
         "$selected = $VariantColors[$Variant]\n"
         "if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {\n"
-        "    Set-PSReadLineOption -Colors $selected\n"
+        "    $applyColors = @{} + $selected\n"
+        '    if (-not ([Microsoft.PowerShell.PSConsoleReadLineOptions].GetProperty("InlinePredictionColor"))) {\n'
+        '        $applyColors.Remove("InlinePrediction")\n'
+        "    }\n"
+        "    Set-PSReadLineOption -Colors $applyColors\n"
         "}\n"
         "if ($PassThru) {\n"
         "    return $selected\n"
@@ -354,6 +360,60 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
         "    [switch]$SkipSettings\n"
         ")\n\n"
         '$ErrorActionPreference = "Stop"\n\n'
+        "function Remove-JsonComments {\n"
+        "    param([Parameter(Mandatory)][string]$JsonText)\n"
+        "    $sb = [System.Text.StringBuilder]::new($JsonText.Length)\n"
+        "    $inString = $false\n"
+        "    $escaped = $false\n"
+        "    $inLine = $false\n"
+        "    $inBlock = $false\n"
+        "    $len = $JsonText.Length\n"
+        "    for ($i = 0; $i -lt $len; $i++) {\n"
+        "        $ch = $JsonText[$i]\n"
+        "        $next = if ($i + 1 -lt $len) { $JsonText[$i + 1] } else { [char]0 }\n"
+        "        if ($inLine) {\n"
+        "            if ($ch -eq [char]10) {\n"
+        "                $inLine = $false\n"
+        "                [void]$sb.Append($ch)\n"
+        "            } elseif ($ch -eq [char]13 -and $next -eq [char]10) {\n"
+        "                $inLine = $false\n"
+        "                [void]$sb.Append($ch)\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($inBlock) {\n"
+        "            if ($ch -eq [char]42 -and $next -eq [char]47) {\n"
+        "                $inBlock = $false\n"
+        "                $i++\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($inString) {\n"
+        "            [void]$sb.Append($ch)\n"
+        "            if ($escaped) {\n"
+        "                $escaped = $false\n"
+        "            } elseif ($ch -eq [char]92) {\n"
+        "                $escaped = $true\n"
+        "            } elseif ($ch -eq [char]34) {\n"
+        "                $inString = $false\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($ch -eq [char]34) {\n"
+        "            $inString = $true\n"
+        "            [void]$sb.Append($ch)\n"
+        "        } elseif ($ch -eq [char]47 -and $next -eq [char]47) {\n"
+        "            $inLine = $true\n"
+        "            $i++\n"
+        "        } elseif ($ch -eq [char]47 -and $next -eq [char]42) {\n"
+        "            $inBlock = $true\n"
+        "            $i++\n"
+        "        } else {\n"
+        "            [void]$sb.Append($ch)\n"
+        "        }\n"
+        "    }\n"
+        "    return $sb.ToString()\n"
+        "}\n\n"
         "$VariantMap = @{\n"
         '    "year-one"                  = "Gotham Noir - Year One"\n'
         '    "year one"                  = "Gotham Noir - Year One"\n'
@@ -403,9 +463,10 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
         "    }\n\n"
         "    if (Test-Path $SettingsPath) {\n"
         '        Copy-Item -Path $SettingsPath -Destination "$SettingsPath.bak" -Force\n'
-        "        $RawJson = Get-Content -Path $SettingsPath -Raw\n"
-        '        if ([string]::IsNullOrWhiteSpace($RawJson)) { $RawJson = "{}" }\n'
-        "        $SettingsObj = $RawJson | ConvertFrom-Json\n"
+        "        $RawJson = [System.IO.File]::ReadAllText($SettingsPath, [System.Text.UTF8Encoding]::new($false)).TrimStart([char]0xFEFF)\n"
+        "        $CleanJson = Remove-JsonComments -JsonText $RawJson\n"
+        '        if ([string]::IsNullOrWhiteSpace($CleanJson)) { $CleanJson = "{}" }\n'
+        "        $SettingsObj = $CleanJson | ConvertFrom-Json\n"
         "    } else {\n"
         "        $SettingsObj = [PSCustomObject]@{}\n"
         "    }\n\n"

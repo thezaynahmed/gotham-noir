@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -72,19 +75,40 @@ jobs:
           if ($psrColors["Command"] -ne "#72b4f5") {
             throw "Unexpected Batcomputer PSReadLine Command color: $($psrColors['Command'])"
           }
+          if (-not $psrColors["Selection"].StartsWith("$([char]27)[48;2;")) {
+            throw "Expected ANSI background escape for PSReadLine Selection, got: $($psrColors['Selection'])"
+          }
 
           $mockSettings = Join-Path $env:RUNNER_TEMP "wt-settings.json"
           $mockFragment = Join-Path $env:RUNNER_TEMP "wt-fragments"
-          @{ schemes = @(@{ name = "My Custom Theme"; background = "#111111" }) } | ConvertTo-Json -Depth 5 | Set-Content -Path $mockSettings -Encoding UTF8
+          $jsoncInput = @"
+// User comment with URL https://aka.ms/terminal-profiles-schema
+{
+  "`$schema": "https://aka.ms/terminal-profiles-schema",
+  /* Multi-line JSONC comment
+     preserving custom schemes and paths */
+  "schemes": [
+    { "name": "José Custom", "background": "#111111" }
+  ],
+  "profiles": {
+    "defaults": {
+      "icon": "C:\\Users\\José\\icon.png"
+    }
+  }
+}
+"@
+          [System.IO.File]::WriteAllText($mockSettings, $jsoncInput, [System.Text.UTF8Encoding]::new($false))
 
           & ./ports/windows-terminal/install-windows-terminal.ps1 -Variant "Batcomputer" -SettingsPath $mockSettings -FragmentDir $mockFragment
 
           if (-not (Test-Path "$mockSettings.bak")) { throw "Missing settings backup" }
-          $updated = Get-Content $mockSettings -Raw | ConvertFrom-Json
+          $updated = [System.IO.File]::ReadAllText($mockSettings, [System.Text.UTF8Encoding]::new($false)) | ConvertFrom-Json
           if ($updated.schemes.Count -ne 5) { throw "Expected 5 schemes (1 custom + 4 Gotham Noir), got $($updated.schemes.Count)" }
+          if (-not ($updated.schemes | Where-Object { $_.name -eq "José Custom" })) { throw "Lost UTF-8 custom scheme José Custom" }
+          if ($updated.profiles.defaults.icon -ne "C:\Users\José\icon.png") { throw "Lost UTF-8 profile icon path: $($updated.profiles.defaults.icon)" }
           if ($updated.profiles.defaults.colorScheme -ne "Gotham Noir - Batcomputer") {
             throw "Expected Gotham Noir - Batcomputer default scheme, got $($updated.profiles.defaults.colorScheme)"
           }
-          $frag = Get-Content (Join-Path $mockFragment "themes.json") -Raw | ConvertFrom-Json
+          $frag = [System.IO.File]::ReadAllText((Join-Path $mockFragment "themes.json"), [System.Text.UTF8Encoding]::new($false)) | ConvertFrom-Json
           if ($frag.schemes.Count -ne 4) { throw "Expected 4 fragment schemes, got $($frag.schemes.Count)" }
           Write-Host "Windows Terminal & PowerShell verification passed"

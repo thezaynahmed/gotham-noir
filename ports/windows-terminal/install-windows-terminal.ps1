@@ -10,6 +10,61 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Remove-JsonComments {
+    param([Parameter(Mandatory)][string]$JsonText)
+    $sb = [System.Text.StringBuilder]::new($JsonText.Length)
+    $inString = $false
+    $escaped = $false
+    $inLine = $false
+    $inBlock = $false
+    $len = $JsonText.Length
+    for ($i = 0; $i -lt $len; $i++) {
+        $ch = $JsonText[$i]
+        $next = if ($i + 1 -lt $len) { $JsonText[$i + 1] } else { [char]0 }
+        if ($inLine) {
+            if ($ch -eq [char]10) {
+                $inLine = $false
+                [void]$sb.Append($ch)
+            } elseif ($ch -eq [char]13 -and $next -eq [char]10) {
+                $inLine = $false
+                [void]$sb.Append($ch)
+            }
+            continue
+        }
+        if ($inBlock) {
+            if ($ch -eq [char]42 -and $next -eq [char]47) {
+                $inBlock = $false
+                $i++
+            }
+            continue
+        }
+        if ($inString) {
+            [void]$sb.Append($ch)
+            if ($escaped) {
+                $escaped = $false
+            } elseif ($ch -eq [char]92) {
+                $escaped = $true
+            } elseif ($ch -eq [char]34) {
+                $inString = $false
+            }
+            continue
+        }
+        if ($ch -eq [char]34) {
+            $inString = $true
+            [void]$sb.Append($ch)
+        } elseif ($ch -eq [char]47 -and $next -eq [char]47) {
+            $inLine = $true
+            $i++
+        } elseif ($ch -eq [char]47 -and $next -eq [char]42) {
+            $inBlock = $true
+            $i++
+        } else {
+            [void]$sb.Append($ch)
+        }
+    }
+    return $sb.ToString()
+}
+
 $VariantMap = @{
     "year-one"                  = "Gotham Noir - Year One"
     "year one"                  = "Gotham Noir - Year One"
@@ -159,9 +214,10 @@ if (-not $SkipSettings) {
 
     if (Test-Path $SettingsPath) {
         Copy-Item -Path $SettingsPath -Destination "$SettingsPath.bak" -Force
-        $RawJson = Get-Content -Path $SettingsPath -Raw
-        if ([string]::IsNullOrWhiteSpace($RawJson)) { $RawJson = "{}" }
-        $SettingsObj = $RawJson | ConvertFrom-Json
+        $RawJson = [System.IO.File]::ReadAllText($SettingsPath, [System.Text.UTF8Encoding]::new($false)).TrimStart([char]0xFEFF)
+        $CleanJson = Remove-JsonComments -JsonText $RawJson
+        if ([string]::IsNullOrWhiteSpace($CleanJson)) { $CleanJson = "{}" }
+        $SettingsObj = $CleanJson | ConvertFrom-Json
     } else {
         $SettingsObj = [PSCustomObject]@{}
     }

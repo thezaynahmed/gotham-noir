@@ -413,6 +413,7 @@ for (k, v) in plist {
     if k == "Font" {
       let f = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSFont.self, from: blob)
       out[k] = f?.fontName ?? "nil"
+      out["FontSize"] = String(format: "%.1f", Double(f?.pointSize ?? 0))
     } else if k.hasSuffix("Color") {
       let c = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: blob)?.usingColorSpace(.sRGB)
       if let c = c {
@@ -450,9 +451,13 @@ print(String(data: jsonData, encoding: .utf8)!)
         for pal in self.palettes:
             term_path = ROOT / "ports" / "macos-terminal" / f"{pal['name']}.terminal"
             subprocess.run(["plutil", "-lint", str(term_path)], check=True, capture_output=True)
+            raw_plist = plistlib.loads(term_path.read_bytes())
+            font_archive = plistlib.loads(raw_plist["Font"])
+            self.assertIn("MonaspaceNeon-Regular", font_archive["$objects"])
             res = subprocess.run(["swift", "-e", swift_src, str(term_path)], check=True, capture_output=True, text=True)
             decoded = json.loads(res.stdout)
-            self.assertEqual(decoded["Font"], "MonaspaceNeon-Regular")
+            self.assertEqual(decoded["FontSize"], "14.5")
+            self.assertIn(decoded["Font"], ("MonaspaceNeon-Regular", ".AppleSystemUIFont"))
             for plist_key, section, pal_key in key_checks:
                 self.assertEqual(
                     decoded[plist_key],

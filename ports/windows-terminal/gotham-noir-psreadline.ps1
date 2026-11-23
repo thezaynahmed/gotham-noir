@@ -20,7 +20,7 @@ $VariantColors = @{
         Member           = "#68c5ce"
         Error            = "#e86a74"
         InlinePrediction = "#878d96"
-        Selection        = "#323a46"
+        Selection        = "$([char]27)[48;2;50;58;70;38;2;236;234;228m"
         Default          = "#d8d6cf"
     }
     "batcomputer" = @{
@@ -36,7 +36,7 @@ $VariantColors = @{
         Member           = "#5ecad6"
         Error            = "#ee6b78"
         InlinePrediction = "#828a96"
-        Selection        = "#2b3440"
+        Selection        = "$([char]27)[48;2;43;52;64;38;2;239;242;246m"
         Default          = "#dce0e5"
     }
     "arkham-slate" = @{
@@ -52,7 +52,7 @@ $VariantColors = @{
         Member           = "#74bfbd"
         Error            = "#e37370"
         InlinePrediction = "#929690"
-        Selection        = "#373e47"
+        Selection        = "$([char]27)[48;2;55;62;71;38;2;236;231;218m"
         Default          = "#dad5c7"
     }
     "vengeance" = @{
@@ -68,14 +68,18 @@ $VariantColors = @{
         Member           = "#6fc2ca"
         Error            = "#ef6c74"
         InlinePrediction = "#918994"
-        Selection        = "#3a2c33"
+        Selection        = "$([char]27)[48;2;58;44;51;38;2;240;236;234m"
         Default          = "#ddd8d5"
     }
 }
 
 $selected = $VariantColors[$Variant]
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
-    Set-PSReadLineOption -Colors $selected
+    $applyColors = @{} + $selected
+    if (-not ([Microsoft.PowerShell.PSConsoleReadLineOptions].GetProperty("InlinePredictionColor"))) {
+        $applyColors.Remove("InlinePrediction")
+    }
+    Set-PSReadLineOption -Colors $applyColors
 }
 if ($PassThru) {
     return $selected
