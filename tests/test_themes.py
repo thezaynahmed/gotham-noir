@@ -112,6 +112,7 @@ class GothamNoirTests(unittest.TestCase):
                     self.assertEqual(s, s.strip(), f"Whitespace in scope: {s!r}")
 
     def test_zed_schema_v020_compliance(self) -> None:
+        self.assertTrue((ROOT / "packages" / "zed" / "LICENSE").exists(), "Missing packages/zed/LICENSE")
         zed_path = ROOT / "packages" / "zed" / "themes" / "gotham-noir.json"
         zed = json.loads(zed_path.read_text(encoding="utf-8"))
         self.assertEqual(zed["$schema"], "https://zed.dev/schema/themes/v0.2.0.json")
