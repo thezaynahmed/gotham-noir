@@ -66,6 +66,8 @@ def main() -> int:
 
     clean_generated_dirs(root)
     shutil.copy2(root / "LICENSE", root / "packages" / "vscode" / "LICENSE")
+    (root / "packages" / "zed").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(root / "LICENSE", root / "packages" / "zed" / "LICENSE")
     generate_icon_png(root / "assets" / "icon-512.png", size=512)
     generate_icon_png(root / "packages" / "vscode" / "images" / "icon.png", size=128)
     generate_code_window_png(palettes[0], root / "assets" / "hero-year-one.png")
