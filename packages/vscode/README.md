@@ -75,6 +75,6 @@ class SignalControlPlane(OracleStream):
 
 ## Cross-Platform Ports & Contributing
 
-Native ports for **Ghostty**, **Zed**, **Warp**, **Kitty**, **Alacritty**, **WezTerm**, **Windows Terminal**, **iTerm2**, **macOS Terminal.app**, **tmux**, **Paradev**, and **Regular Antigravity** live in [github.com/thezaynahmed/gotham-noir](https://github.com/thezaynahmed/gotham-noir). See [Contributing](https://github.com/thezaynahmed/gotham-noir/blob/main/CONTRIBUTING.md) or open bug reports on [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues).
+Preview all 4 palettes and install guides live at **[gothamnoir.zainahmed.net](https://gothamnoir.zainahmed.net)**. Native ports for **Ghostty**, **Zed**, **Warp**, **Kitty**, **Alacritty**, **WezTerm**, **Windows Terminal**, **iTerm2**, **macOS Terminal.app**, **tmux**, **Paradev**, and **Regular Antigravity** live in [github.com/thezaynahmed/gotham-noir](https://github.com/thezaynahmed/gotham-noir). See [Contributing](https://github.com/thezaynahmed/gotham-noir/blob/main/CONTRIBUTING.md) or open bug reports on [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues).
 
 *Independent open-source color system created by Zain Ahmed. Not affiliated with or endorsed by any studio or publisher.*

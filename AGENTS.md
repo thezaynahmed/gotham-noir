@@ -1,6 +1,6 @@
 # Agent Setup Instructions (AGENTS.md)
 
-Use this file when a user asks an AI agent to install, configure, build, or verify **Gotham Noir** (created by Zain Ahmed, [zainahmed.net](https://zainahmed.net/)).
+Use this file when a user asks an AI agent to install, configure, build, or verify **Gotham Noir** ([gothamnoir.zainahmed.net](https://gothamnoir.zainahmed.net), created by Zain Ahmed, [zainahmed.net](https://zainahmed.net/)).
 
 ## 0. Install the Agent Skill
 
