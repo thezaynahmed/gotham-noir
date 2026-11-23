@@ -266,7 +266,7 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
         encoding="utf-8",
     )
 
-    # 6. Windows Terminal
+    # 6. Windows Terminal + PowerShell (schemes, JSON Fragment, PSReadLine, standalone installer)
     wt_dir = ports / "windows-terminal"
     wt_dir.mkdir(parents=True, exist_ok=True)
     schemes = []
@@ -295,7 +295,219 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
             "brightCyan": ansi["brightCyan"].lower(),
             "brightWhite": ansi["brightWhite"].lower(),
         })
-    (wt_dir / "gotham-noir-schemes.json").write_text(json.dumps({"schemes": schemes}, indent=2) + "\n", encoding="utf-8")
+    schemes_json = json.dumps({"schemes": schemes}, indent=2) + "\n"
+    (wt_dir / "gotham-noir-schemes.json").write_text(schemes_json, encoding="utf-8")
+    (wt_dir / "gotham-noir-fragment.json").write_text(schemes_json, encoding="utf-8")
+
+    psr_blocks = []
+    for pal in palettes:
+        short_slug = pal["slug"].replace("gotham-noir-", "")
+        ui, syn = pal["ui"], pal["syntax"]
+        sel_bg = [int(round(c * 255)) for c in hex_to_rgb01(ui["selectionBg"])]
+        sel_fg = [int(round(c * 255)) for c in hex_to_rgb01(ui["fgStrong"])]
+        psr_blocks.append(
+            f'    "{short_slug}" = @{{\n'
+            f'        Command          = "{syn["blue"].lower()}"\n'
+            f'        Parameter        = "{syn["amber"].lower()}"\n'
+            f'        String           = "{syn["emerald"].lower()}"\n'
+            f'        Operator         = "{syn["cyan"].lower()}"\n'
+            f'        Number           = "{syn["amber"].lower()}"\n'
+            f'        Comment          = "{syn["muted"].lower()}"\n'
+            f'        Keyword          = "{syn["violet"].lower()}"\n'
+            f'        Variable         = "{ui["fg"].lower()}"\n'
+            f'        Type             = "{syn["gold"].lower()}"\n'
+            f'        Member           = "{syn["cyan"].lower()}"\n'
+            f'        Error            = "{syn["crimson"].lower()}"\n'
+            f'        InlinePrediction = "{ui["fgMuted"].lower()}"\n'
+            f'        Selection        = "$([char]27)[48;2;{sel_bg[0]};{sel_bg[1]};{sel_bg[2]};38;2;{sel_fg[0]};{sel_fg[1]};{sel_fg[2]}m"\n'
+            f'        Default          = "{ui["fg"].lower()}"\n'
+            f'    }}'
+        )
+    psr_ps1 = (
+        "# Gotham Noir PowerShell PSReadLine Syntax Theme\n"
+        "[CmdletBinding()]\n"
+        "param(\n"
+        '    [ValidateSet("year-one", "batcomputer", "arkham-slate", "vengeance")]\n'
+        '    [string]$Variant = "year-one",\n'
+        "    [switch]$PassThru\n"
+        ")\n\n"
+        "$VariantColors = @{\n"
+        + "\n".join(psr_blocks)
+        + "\n}\n\n"
+        "$selected = $VariantColors[$Variant]\n"
+        "if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {\n"
+        "    $applyColors = @{} + $selected\n"
+        '    if (-not ([Microsoft.PowerShell.PSConsoleReadLineOptions].GetProperty("InlinePredictionColor"))) {\n'
+        '        $applyColors.Remove("InlinePrediction")\n'
+        "    }\n"
+        "    Set-PSReadLineOption -Colors $applyColors\n"
+        "}\n"
+        "if ($PassThru) {\n"
+        "    return $selected\n"
+        "}\n"
+    )
+    (wt_dir / "gotham-noir-psreadline.ps1").write_text(psr_ps1, encoding="utf-8")
+
+    schemes_here_json = json.dumps({"schemes": schemes}, indent=2)
+    install_ps1 = (
+        "# Gotham Noir Installer for Windows Terminal (Store, Preview, Unpackaged) + PowerShell\n"
+        "[CmdletBinding()]\n"
+        "param(\n"
+        '    [string]$Variant = "Year One",\n'
+        '    [string]$SettingsPath = "",\n'
+        '    [string]$FragmentDir = "",\n'
+        "    [switch]$SkipFragment,\n"
+        "    [switch]$SkipSettings\n"
+        ")\n\n"
+        '$ErrorActionPreference = "Stop"\n\n'
+        "function Remove-JsonComments {\n"
+        "    param([Parameter(Mandatory)][AllowEmptyString()][string]$JsonText)\n"
+        "    $sb = [System.Text.StringBuilder]::new($JsonText.Length)\n"
+        "    $inString = $false\n"
+        "    $escaped = $false\n"
+        "    $inLine = $false\n"
+        "    $inBlock = $false\n"
+        "    $len = $JsonText.Length\n"
+        "    for ($i = 0; $i -lt $len; $i++) {\n"
+        "        $ch = $JsonText[$i]\n"
+        "        $next = if ($i + 1 -lt $len) { $JsonText[$i + 1] } else { [char]0 }\n"
+        "        if ($inLine) {\n"
+        "            if ($ch -eq [char]10) {\n"
+        "                $inLine = $false\n"
+        "                [void]$sb.Append($ch)\n"
+        "            } elseif ($ch -eq [char]13 -and $next -eq [char]10) {\n"
+        "                $inLine = $false\n"
+        "                [void]$sb.Append($ch)\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($inBlock) {\n"
+        "            if ($ch -eq [char]42 -and $next -eq [char]47) {\n"
+        "                $inBlock = $false\n"
+        "                $i++\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($inString) {\n"
+        "            [void]$sb.Append($ch)\n"
+        "            if ($escaped) {\n"
+        "                $escaped = $false\n"
+        "            } elseif ($ch -eq [char]92) {\n"
+        "                $escaped = $true\n"
+        "            } elseif ($ch -eq [char]34) {\n"
+        "                $inString = $false\n"
+        "            }\n"
+        "            continue\n"
+        "        }\n"
+        "        if ($ch -eq [char]34) {\n"
+        "            $inString = $true\n"
+        "            [void]$sb.Append($ch)\n"
+        "        } elseif ($ch -eq [char]47 -and $next -eq [char]47) {\n"
+        "            $inLine = $true\n"
+        "            $i++\n"
+        "        } elseif ($ch -eq [char]47 -and $next -eq [char]42) {\n"
+        "            $inBlock = $true\n"
+        "            $i++\n"
+        "        } else {\n"
+        "            [void]$sb.Append($ch)\n"
+        "        }\n"
+        "    }\n"
+        "    return $sb.ToString()\n"
+        "}\n\n"
+        "$VariantMap = @{\n"
+        '    "year-one"                  = "Gotham Noir - Year One"\n'
+        '    "year one"                  = "Gotham Noir - Year One"\n'
+        '    "gotham noir - year one"    = "Gotham Noir - Year One"\n'
+        '    "batcomputer"               = "Gotham Noir - Batcomputer"\n'
+        '    "gotham noir - batcomputer" = "Gotham Noir - Batcomputer"\n'
+        '    "arkham-slate"              = "Gotham Noir - Arkham Slate"\n'
+        '    "arkham slate"              = "Gotham Noir - Arkham Slate"\n'
+        '    "arkham"                    = "Gotham Noir - Arkham Slate"\n'
+        '    "gotham noir - arkham slate"= "Gotham Noir - Arkham Slate"\n'
+        '    "vengeance"                 = "Gotham Noir - Vengeance"\n'
+        '    "gotham noir - vengeance"   = "Gotham Noir - Vengeance"\n'
+        "}\n"
+        "$lookupKey = $Variant.Trim().ToLowerInvariant()\n"
+        "if ($VariantMap.ContainsKey($lookupKey)) {\n"
+        "    $TargetScheme = $VariantMap[$lookupKey]\n"
+        "} else {\n"
+        "    $TargetScheme = \"Gotham Noir - Year One\"\n"
+        "}\n\n"
+        "$GothamPayload = @'\n"
+        + schemes_here_json
+        + "\n'@\n"
+        "$ParsedPayload = $GothamPayload | ConvertFrom-Json\n"
+        "$GothamNames = @($ParsedPayload.schemes | ForEach-Object { $_.name })\n\n"
+        "if (-not $SkipFragment) {\n"
+        "    if ([string]::IsNullOrWhiteSpace($FragmentDir)) {\n"
+        '        $FragmentDir = Join-Path $env:LOCALAPPDATA "Microsoft\\Windows Terminal\\Fragments\\gotham-noir"\n'
+        "    }\n"
+        "    New-Item -ItemType Directory -Path $FragmentDir -Force | Out-Null\n"
+        '    $FragmentFile = Join-Path $FragmentDir "themes.json"\n'
+        "    [System.IO.File]::WriteAllText($FragmentFile, ($ParsedPayload | ConvertTo-Json -Depth 10) + \"`n\", [System.Text.UTF8Encoding]::new($false))\n"
+        '    Write-Host "Wrote Windows Terminal fragment extension: $FragmentFile"\n'
+        "}\n\n"
+        "if (-not $SkipSettings) {\n"
+        "    if ([string]::IsNullOrWhiteSpace($SettingsPath)) {\n"
+        "        $Candidates = @(\n"
+        '            (Join-Path $env:LOCALAPPDATA "Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"),\n'
+        '            (Join-Path $env:LOCALAPPDATA "Packages\\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\\LocalState\\settings.json"),\n'
+        '            (Join-Path $env:LOCALAPPDATA "Microsoft\\Windows Terminal\\settings.json")\n'
+        "        )\n"
+        "        $SettingsPath = $Candidates | Where-Object { Test-Path $_ } | Select-Object -First 1\n"
+        "        if (-not $SettingsPath) { $SettingsPath = $Candidates[0] }\n"
+        "    }\n\n"
+        "    $SettingsParent = Split-Path -Parent $SettingsPath\n"
+        "    if (-not [string]::IsNullOrWhiteSpace($SettingsParent)) {\n"
+        "        New-Item -ItemType Directory -Path $SettingsParent -Force | Out-Null\n"
+        "    }\n\n"
+        "    if (Test-Path $SettingsPath) {\n"
+        '        Copy-Item -Path $SettingsPath -Destination "$SettingsPath.bak" -Force\n'
+        "        $RawJson = [System.IO.File]::ReadAllText($SettingsPath, [System.Text.UTF8Encoding]::new($false)).TrimStart([char]0xFEFF)\n"
+        "        $CleanJson = Remove-JsonComments -JsonText $RawJson\n"
+        '        if ([string]::IsNullOrWhiteSpace($CleanJson)) { $CleanJson = "{}" }\n'
+        "        $SettingsObj = $CleanJson | ConvertFrom-Json\n"
+        "    } else {\n"
+        "        $SettingsObj = [PSCustomObject]@{}\n"
+        "    }\n\n"
+        "    $ExistingSchemes = @()\n"
+        '    if ($SettingsObj.PSObject.Properties["schemes"] -and $SettingsObj.schemes) {\n'
+        "        $ExistingSchemes = @($SettingsObj.schemes | Where-Object { $GothamNames -notcontains $_.name })\n"
+        "    }\n"
+        "    $MergedSchemes = @($ExistingSchemes + $ParsedPayload.schemes)\n"
+        '    $SettingsObj | Add-Member -NotePropertyName "schemes" -NotePropertyValue $MergedSchemes -Force\n\n'
+        '    if (-not $SettingsObj.PSObject.Properties["profiles"] -or -not $SettingsObj.profiles) {\n'
+        '        $SettingsObj | Add-Member -NotePropertyName "profiles" -NotePropertyValue ([PSCustomObject]@{}) -Force\n'
+        "    }\n"
+        '    if (-not $SettingsObj.profiles.PSObject.Properties["defaults"] -or -not $SettingsObj.profiles.defaults) {\n'
+        '        $SettingsObj.profiles | Add-Member -NotePropertyName "defaults" -NotePropertyValue ([PSCustomObject]@{}) -Force\n'
+        "    }\n"
+        '    $SettingsObj.profiles.defaults | Add-Member -NotePropertyName "colorScheme" -NotePropertyValue $TargetScheme -Force\n\n'
+        '    [System.IO.File]::WriteAllText($SettingsPath, ($SettingsObj | ConvertTo-Json -Depth 12) + "`n", [System.Text.UTF8Encoding]::new($false))\n'
+        '    Write-Host "Updated Windows Terminal settings ($SettingsPath) -> $TargetScheme"\n'
+        "}\n"
+    )
+    (wt_dir / "install-windows-terminal.ps1").write_text(install_ps1, encoding="utf-8")
+
+    wt_readme = (
+        "# Gotham Noir for Windows Terminal & PowerShell\n\n"
+        "## 1. One-Line Install (Windows Terminal + PowerShell Profile)\n\n"
+        "Run in PowerShell 5.1 or PowerShell 7+ (`pwsh`):\n\n"
+        "```powershell\n"
+        "irm https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/install-windows-terminal.ps1 | iex\n"
+        "```\n\n"
+        "To select a specific variant (`year-one`, `batcomputer`, `arkham-slate`, `vengeance`):\n\n"
+        "```powershell\n"
+        "& ([scriptblock]::Create((irm https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/install-windows-terminal.ps1))) -Variant batcomputer\n"
+        "```\n\n"
+        "This creates a `.bak` backup of your existing `settings.json`, preserves custom schemes, installs all 4 schemes, activates `Gotham Noir` in `profiles.defaults.colorScheme`, and installs the official Windows Terminal JSON Fragment Extension (`%LOCALAPPDATA%\\Microsoft\\Windows Terminal\\Fragments\\gotham-noir\\themes.json`).\n\n"
+        "## 2. PowerShell PSReadLine Syntax Highlighting\n\n"
+        "Add to your `$PROFILE`:\n\n"
+        "```powershell\n"
+        "& ([scriptblock]::Create((irm https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/gotham-noir-psreadline.ps1))) -Variant year-one\n"
+        "```\n"
+    )
+    (wt_dir / "README.md").write_text(wt_readme, encoding="utf-8")
 
     # 7. iTerm2 (.itermcolors Apple XML plist + Dynamic Profiles JSON)
     iterm_dir = ports / "iterm2"
@@ -395,13 +607,35 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
 
     apply_sh = (
         "#!/usr/bin/env bash\nset -euo pipefail\n"
-        "SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\n"
-        f"PROFILE_NAME=\"${{1:-{flagship['name']}}}\"\n"
-        "THEME_FILE=\"${SCRIPT_DIR}/${PROFILE_NAME}.terminal\"\n"
-        "if [[ ! -f \"$THEME_FILE\" ]]; then\n"
-        "  echo \"Theme file not found: $THEME_FILE\" >&2; exit 1\n"
+        "NO_OPEN=0\n"
+        "if [[ \"${1:-}\" == \"--no-open\" ]]; then\n"
+        "  NO_OPEN=1\n"
+        "  shift\n"
         "fi\n"
-        "open \"$THEME_FILE\"\nsleep 1\n"
+        "SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]:-$0}\")\" && pwd)\"\n"
+        f"PROFILE_NAME=\"${{1:-{flagship['name']}}}\"\n"
+        "case \"$PROFILE_NAME\" in\n"
+        "  year-one) PROFILE_NAME=\"Gotham Noir - Year One\" ;;\n"
+        "  batcomputer) PROFILE_NAME=\"Gotham Noir - Batcomputer\" ;;\n"
+        "  arkham|arkham-slate) PROFILE_NAME=\"Gotham Noir - Arkham Slate\" ;;\n"
+        "  vengeance) PROFILE_NAME=\"Gotham Noir - Vengeance\" ;;\n"
+        "esac\n"
+        "THEME_FILE=\"${SCRIPT_DIR}/${PROFILE_NAME}.terminal\"\n"
+        "TMP_DIR=\"\"\n"
+        "cleanup() {\n"
+        "  if [[ -n \"$TMP_DIR\" && -d \"$TMP_DIR\" ]]; then rm -rf \"$TMP_DIR\"; fi\n"
+        "}\n"
+        "trap cleanup EXIT\n"
+        "if [[ ! -f \"$THEME_FILE\" ]]; then\n"
+        "  TMP_DIR=\"$(mktemp -d)\"\n"
+        "  ENCODED_FILE=\"${PROFILE_NAME// /%20}.terminal\"\n"
+        "  THEME_FILE=\"${TMP_DIR}/${PROFILE_NAME}.terminal\"\n"
+        "  curl -fsSL \"https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/macos-terminal/${ENCODED_FILE}\" -o \"$THEME_FILE\"\n"
+        "fi\n"
+        "if [[ \"$NO_OPEN\" -eq 0 && -z \"${GOTHAM_NO_OPEN:-}\" ]]; then\n"
+        "  open \"$THEME_FILE\"\n"
+        "  sleep 1\n"
+        "fi\n"
         "defaults write com.apple.Terminal \"Default Window Settings\" -string \"$PROFILE_NAME\"\n"
         "defaults write com.apple.Terminal \"Startup Window Settings\" -string \"$PROFILE_NAME\"\n"
         "echo \"✓ macOS Terminal.app configured with '$PROFILE_NAME'\"\n"
@@ -409,6 +643,15 @@ def write_terminal_ports(palettes: list[dict], root: Path) -> None:
     apply_path = mterm_dir / "apply-macos-terminal.sh"
     apply_path.write_text(apply_sh, encoding="utf-8")
     apply_path.chmod(0o755)
+    (mterm_dir / "README.md").write_text(
+        "# Gotham Noir for macOS Terminal.app\n\n"
+        "## One-Line Install (macOS)\n\n"
+        "```bash\n"
+        "curl -fsSL https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/macos-terminal/apply-macos-terminal.sh | bash -s -- \"Gotham Noir - Year One\"\n"
+        "```\n\n"
+        "Variants: `Gotham Noir - Year One` (`year-one`), `Gotham Noir - Batcomputer` (`batcomputer`), `Gotham Noir - Arkham Slate` (`arkham-slate`), `Gotham Noir - Vengeance` (`vengeance`).\n",
+        encoding="utf-8",
+    )
 
     # 9. tmux snippets + full tmux.conf
     tmux_dir = ports / "tmux"

@@ -13,8 +13,18 @@
 - [shadcn/ui Registry Item](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/shadcn/r/gotham-noir.json)
 - [GitHub Releases (.vsix & ports zip)](https://github.com/thezaynahmed/gotham-noir/releases)
 
+## Website & Machine Endpoints
+- [Website (Human + Agent Mode)](https://gothamnoir.zainahmed.net)
+- [Website Agent Spec (llms-full.txt)](https://gothamnoir.zainahmed.net/llms-full.txt)
+- [Canonical Website Tokens API](https://gothamnoir.zainahmed.net/api/tokens.json)
+
+## Platform Installers & Ports
+- [macOS Terminal.app One-Liner](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/macos-terminal/apply-macos-terminal.sh)
+- [Windows Terminal & PowerShell One-Liner](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/install-windows-terminal.ps1)
+- [Neovim Lua Plugin](https://github.com/thezaynahmed/gotham-noir/tree/main/ports/neovim)
+- [JetBrains .icls Schemes](https://github.com/thezaynahmed/gotham-noir/tree/main/ports/jetbrains)
+
 ## Documentation & Governance
-- [Website & Live Preview](https://gothamnoir.zainahmed.net)
 - [README.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/README.md)
 - [CONTRIBUTING.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/CONTRIBUTING.md)
 - [SECURITY.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/SECURITY.md)

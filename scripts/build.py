@@ -10,7 +10,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from assets import generate_code_window_png, generate_icon_png, generate_palette_preview_png
+from assets import (
+    generate_code_window_png,
+    generate_icon_png,
+    generate_palette_preview_png,
+    generate_split_hero_png,
+)
 from contrast import verify_palette
 from generators_ide import write_ide_outputs
 from generators_terminals import write_terminal_ports
@@ -32,11 +37,14 @@ def clean_generated_dirs(root: Path) -> None:
     """Remove generated theme artifacts so stale filenames never persist across renames."""
     dirs = [
         root / "packages" / "vscode" / "themes",
+        root / "ports" / "neovim",
+        root / "ports" / "jetbrains",
         root / "ports" / "ghostty",
         root / "ports" / "warp",
         root / "ports" / "alacritty",
         root / "ports" / "wezterm",
         root / "ports" / "kitty",
+        root / "ports" / "windows-terminal",
         root / "ports" / "iterm2",
         root / "ports" / "macos-terminal",
         root / "ports" / "tmux",
@@ -71,13 +79,14 @@ def main() -> int:
     generate_icon_png(root / "assets" / "icon-512.png", size=512)
     generate_icon_png(root / "packages" / "vscode" / "images" / "icon.png", size=128)
     generate_code_window_png(palettes[0], root / "assets" / "hero-year-one.png")
+    generate_split_hero_png(palettes, root / "assets" / "hero-4-variants-split.png")
     for pal in palettes:
         generate_code_window_png(pal, root / "assets" / f"preview-{pal['slug'].replace('gotham-noir-', '')}.png")
     generate_palette_preview_png(palettes, root / "packages" / "vscode" / "images" / "palette-preview.png")
     print("✓ Generated crisp real-code PNG assets (0 SVGs)")
 
     write_ide_outputs(palettes, root)
-    print("✓ Generated VS Code, Zed, Antigravity presets, Paradev themes, and IDE configs")
+    print("✓ Generated VS Code, Zed, Neovim, JetBrains, Antigravity presets, Paradev themes, and IDE configs")
 
     write_terminal_ports(palettes, root)
     print("✓ Generated Ghostty, Warp, Alacritty, WezTerm, Kitty, Windows Terminal, iTerm2, macOS Terminal, tmux, Fontconfig & Zsh ports")

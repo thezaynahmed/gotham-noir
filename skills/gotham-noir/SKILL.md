@@ -37,9 +37,13 @@ cd packages/vscode && npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
 code --install-extension gotham-noir-1.0.0.vsix   # or: cursor / windsurf / antigravity-ide
 ```
 
-### 3. Zed, Herdr, Chrome, GitHub, Linear, Slack
+### 3. Zed, Neovim, JetBrains, Windows Terminal, macOS Terminal, Herdr, Chrome, GitHub, Linear, Slack
 
 - **Zed:** `mkdir -p ~/.config/zed/themes && cp packages/zed/themes/gotham-noir.json ~/.config/zed/themes/`
+- **Neovim:** Load `ports/neovim/` in `lazy.nvim` (`vim.cmd.colorscheme("gotham-noir-year-one")`).
+- **JetBrains:** Import `.icls` from `ports/jetbrains/` under Color Scheme settings.
+- **macOS Terminal.app:** `curl -fsSL https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/macos-terminal/apply-macos-terminal.sh | bash -s -- "Gotham Noir - Year One"`
+- **Windows Terminal + PowerShell:** `irm https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/install-windows-terminal.ps1 | iex` (+ `gotham-noir-psreadline.ps1` in `$PROFILE`).
 - **Herdr (dark + light):** `mkdir -p ~/.config/herdr-app/themes && cp ports/herdr/*.json ~/.config/herdr-app/themes/`
 - **Chrome (MV3):** Load `ports/chrome/gotham-noir-year-one/` via `chrome://extensions` -> Load unpacked.
 - **GitHub / Linear:** Install `ports/github/gotham-noir.user.css` or `ports/linear/gotham-noir.user.css` in Stylus; import Linear LCH JSON from `ports/linear/*.json`.

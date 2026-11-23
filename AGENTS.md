@@ -37,6 +37,10 @@ Set `"workbench.colorTheme": "Gotham Noir - Year One"` in `settings.json` (typog
 ## 3. Install Web, Desktop, and Design-System Ports
 
 - **Zed:** `mkdir -p ~/.config/zed/themes && cp packages/zed/themes/gotham-noir.json ~/.config/zed/themes/`
+- **Neovim (`lazy.nvim`):** Point `rtp` to `ports/neovim/` (`require("gotham_noir").setup({ variant = "year-one" })` + `vim.cmd.colorscheme("gotham-noir-year-one")`).
+- **JetBrains IDEs:** Import `.icls` color schemes from `ports/jetbrains/`.
+- **macOS Terminal.app:** Run `curl -fsSL https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/macos-terminal/apply-macos-terminal.sh | bash -s -- "Gotham Noir - Year One"`.
+- **Windows Terminal & PowerShell (`pwsh`):** Run `irm https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/windows-terminal/install-windows-terminal.ps1 | iex` and add `ports/windows-terminal/gotham-noir-psreadline.ps1` to `$PROFILE`.
 - **Herdr (dark + light):** `mkdir -p ~/.config/herdr-app/themes && cp ports/herdr/*.json ~/.config/herdr-app/themes/`
 - **shadcn/ui:** `npx shadcn@latest add https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/shadcn/r/gotham-noir.json`
 - **CSS Palette:** Copy `ports/palette/gotham-noir.css` (or `ports/palette/gotham.css`) and `ports/palette/tokens.json`.
