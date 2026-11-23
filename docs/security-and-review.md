@@ -9,7 +9,7 @@ Protected by GitHub branch ruleset `27903827` (**Main: required CI and pull requ
 - **Pull request required:** Direct pushes, force pushes, and branch deletions on `main` are blocked.
 - **Required status check:** `validate` (`.github/workflows/validate.yml`) must pass on an up-to-date branch (`strict_required_status_checks_policy: true`).
 - **Conversation resolution:** All pull request review threads must be resolved before merge (`required_review_thread_resolution: true`).
-- **Bypass actors:** None (`bypass_actors: []`). Nobody, including the repository owner or third-party apps, can override or bypass this ruleset.
+- **Bypass actors:** None (`bypass_actors: []`). No actor (including third-party apps or the repository owner) can bypass the ruleset while it is active, though repository administrators can still edit, disable, or delete the ruleset in repository settings.
 
 ## 2. Deterministic CI & Security Baseline (Public Repo, $0)
 
@@ -21,7 +21,7 @@ Protected by GitHub branch ruleset `27903827` (**Main: required CI and pull requ
 ## 3. Advisory AI Pull Request Review (CodeRabbit)
 
 - **Repository scope (`Only select repositories`):** The CodeRabbit GitHub App (`coderabbitai`) is installed with access restricted to 4 explicitly selected repositories (public `thezaynahmed/gotham-noir` and `thezaynahmed/ghostty-config` for full OSS advisory reviews, plus private `thezaynahmed/portfolio` and `thezaynahmed/k8s-lecture-notes` under Free-plan PR summaries), never broad "All repositories" access.
-- **Advisory only:** `.coderabbit.yaml` sets `reviews.request_changes_workflow: false` and `reviews.disable_cache: true`. CodeRabbit approval is not a hard merge gate; merge decisions always depend on deterministic CI (`validate` + security scans), never LLM approval.
+- **Advisory only:** `.coderabbit.yaml` sets `reviews.request_changes_workflow: false` and `reviews.disable_cache: true`. CodeRabbit approval is not a hard merge gate; merge protection is enforced by the deterministic `validate` status check (while CodeQL scans remain advisory until promoted), never LLM approval.
 
 ## 4. Private Repository Baseline ($0)
 
