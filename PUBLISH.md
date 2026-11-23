@@ -1,4 +1,4 @@
-# Publishing Guide — Gotham Noir
+# Publishing Guide: Gotham Noir
 
 Everything in this repository is built and validated locally from [`palettes/`](palettes/) via `python3 scripts/build.py`. Use this checklist when you are ready to publish publicly.
 
@@ -16,7 +16,7 @@ gh repo create thezaynahmed/gotham-noir --public --source=. --remote=origin --pu
 ## 1. VS Code Marketplace (`code`)
 
 **Requirements:**
-- PNG icon only (`packages/vscode/images/icon.png` — 128x128 PNG, already generated; zero SVGs in `package.json` or `README.md`).
+- PNG icon only (`packages/vscode/images/icon.png` (128x128 PNG, already generated); zero SVGs in `package.json` or `README.md`).
 - Publisher `thezaynahmed` created at [Visual Studio Marketplace Management Portal](https://marketplace.visualstudio.com/manage).
 - Azure DevOps PAT with **Marketplace (Manage)** scope (or GitHub Actions `VSCE_PAT` secret).
 
@@ -33,7 +33,7 @@ npx --yes @vscode/vsce publish --packagePath gotham-noir-1.0.0.vsix
 
 **Requirements:**
 - GitHub account linked to Eclipse Foundation at [open-vsx.org](https://open-vsx.org/) + signed Publisher Agreement.
-- Unscoped `name` (`"gotham-noir"` — already configured).
+- Unscoped `name` (`"gotham-noir"`, already configured).
 - Access token generated from Open VSX user settings.
 
 ```bash

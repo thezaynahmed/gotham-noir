@@ -30,14 +30,22 @@ jobs:
         working-directory: packages/vscode
         run: npx --yes @vscode/vsce package -o gotham-noir.vsix
       - name: Publish to VS Code Marketplace
-        if: ${{ secrets.VSCE_PAT != '' }}
         working-directory: packages/vscode
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx --yes @vscode/vsce publish --packagePath gotham-noir.vsix
+        run: |
+          if [ -n "$VSCE_PAT" ]; then
+            npx --yes @vscode/vsce publish --packagePath gotham-noir.vsix
+          else
+            echo "Skipping VS Code Marketplace publish (VSCE_PAT not set)."
+          fi
       - name: Publish to Open VSX Registry
-        if: ${{ secrets.OVSX_PAT != '' }}
         working-directory: packages/vscode
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        run: npx --yes ovsx publish gotham-noir.vsix
+        run: |
+          if [ -n "$OVSX_PAT" ]; then
+            npx --yes ovsx publish gotham-noir.vsix
+          else
+            echo "Skipping Open VSX publish (OVSX_PAT not set)."
+          fi
