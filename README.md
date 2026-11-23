@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="./assets/icon-512.png" width="76" alt="Gotham Noir emblem"><br>
   <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 dark-only nocturnal variants specimen">
 </p>
 
@@ -17,7 +18,7 @@ Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or b
 - [Why Gotham Noir](#why-gotham-noir)
 - [Quick Start](#quick-start)
 - [The 4 Dark Variants](#the-4-dark-variants)
-- [Color Architecture and Fonts](#color-architecture-and-fonts)
+- [Palette and Color Architecture](#palette-and-color-architecture)
 - [Supported Targets](#supported-targets)
 - [Build and Contribute](#build-and-contribute)
 
@@ -78,27 +79,33 @@ cp ../zed/themes/gotham-noir.json ~/.config/zed/themes/
 
 ## The 4 Dark Variants
 
-| Variant | Background | Foreground | Accent | WCAG / APCA Lc | Visual Character & Use Case |
+| Variant | Canvas | Text | Accent | WCAG / APCA Lc | Best For |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Gotham Noir - Year One`** *(Flagship)* | `#15171A` | `#D8D6CF` | `#F0C946` Signal Gold | `12.35:1` / `Lc 80.7` | Matte Kevlar charcoal + rooftop halogen gold for all-day engineering |
-| **`Gotham Noir - Batcomputer`** | `#101215` | `#DCE0E5` | `#F5D042` + `#56CCA0` | `14.15:1` / `Lc 87.0` | OLED obsidian control plane tuned for AI agents, K8s, and MLOps logs |
-| **`Gotham Noir - Arkham Slate`** | `#1D1F21` | `#DAD5C7` | `#E6C15A` Antique Gold | `11.28:1` / `Lc 79.2` | Weathered warm slate + low-saturation gold for 3 AM zero-glare focus |
-| **`Gotham Noir - Vengeance`** | `#151417` | `#DDD8D5` | `#E5535C` Flare Crimson | `12.98:1` / `Lc 82.7` | Rain-soaked dark chrome + tactical crimson for high-focus night sprints |
+| **`Gotham Noir - Year One`** *(Flagship)* | `#15171A` | `#D8D6CF` | `#F0C946` | `12.35:1` / `Lc 80.7` | Balanced matte Kevlar + rooftop signal gold for all-day coding |
+| **`Gotham Noir - Batcomputer`** | `#101215` | `#DCE0E5` | `#F5D042` + `#56CCA0` | `14.15:1` / `Lc 87.0` | OLED obsidian control plane for AI agents, K8s, and MLOps logs |
+| **`Gotham Noir - Arkham Slate`** | `#1D1F21` | `#DAD5C7` | `#E6C15A` | `11.28:1` / `Lc 79.2` | Weathered warm slate + antique gold for 3 AM zero-glare focus |
+| **`Gotham Noir - Vengeance`** | `#151417` | `#DDD8D5` | `#E5535C` | `12.98:1` / `Lc 82.7` | Rain-soaked dark chrome + crimson flare for high-focus nights |
 
 ---
 
-## Color Architecture and Fonts
+## Palette and Color Architecture
 
-Every variant maps code semantics consistently so ADHD context switching stays effortless across languages:
+Reference swatches from the flagship **Year One** palette (all 4 canonical palettes live in [`palettes/`](palettes/)):
 
-- **Nomex Kevlar (`#15171A`) & Parchment (`#D8D6CF`):** Zero-glare canvas and neutral identifiers.
-- **Signal Gold (`#F0C946`):** Classes, types, interfaces, active cursor, and active line number.
-- **Detective Blue (`#74AEEB`):** Functions, methods, HTML/JSX tags, and IaC resources.
-- **Oracle Emerald (`#63C794`) & Alert Crimson (`#E86A74`):** Strings, `git diff` additions/deletions, and test telemetry.
-- **Cryo Sonar Cyan (`#68C5CE`), Utility Brass (`#E29754`), Noir Violet (`#B695E8`):** Operators/YAML keys, constants/parameters, and control keywords.
-- **2027 AI Agent & Diagnostic Tokens:** Native theming for `inlineChat`, `chat`, `agentsChatInput`, `editorGhostText`, `editorStickyScroll`, `editorInlayHint`, 6-level bracket pairs, and `terminalCommandDecoration`.
+| Swatch | Role | Semantic Assignment |
+| :--- | :--- | :--- |
+| ![](https://img.shields.io/badge/-%2315171A-15171A?style=flat-square) | **Nomex Kevlar** | Matte anti-halation editor and terminal canvas |
+| ![](https://img.shields.io/badge/-%23D8D6CF-D8D6CF?style=flat-square) | **Parchment** | Primary identifiers and warm neutral body text |
+| ![](https://img.shields.io/badge/-%23F0C946-F0C946?style=flat-square) | **Signal Gold** | Classes, types, interfaces, active cursor, active line number |
+| ![](https://img.shields.io/badge/-%2374AEEB-74AEEB?style=flat-square) | **Detective Blue** | Functions, methods, HTML/JSX tags, and IaC resources |
+| ![](https://img.shields.io/badge/-%2363C794-63C794?style=flat-square) | **Oracle Emerald** | Strings, `git diff` additions, and passing test checks |
+| ![](https://img.shields.io/badge/-%2368C5CE-68C5CE?style=flat-square) | **Cryo Sonar Cyan** | Operators, regex escapes, YAML/JSON keys, and builtins |
+| ![](https://img.shields.io/badge/-%23E29754-E29754?style=flat-square) | **Utility Brass** | Numbers, booleans, constants, and function parameters |
+| ![](https://img.shields.io/badge/-%23B695E8-B695E8?style=flat-square) | **Noir Violet** | Control keywords (`async`, `return`, `import`) and decorators |
+| ![](https://img.shields.io/badge/-%23E86A74-E86A74?style=flat-square) | **Alert Crimson** | Errors, `git diff` deletions, and mismatched brackets |
 
-**Dyslexia & Readability Font Presets** in [`ports/ide-settings/font-presets.json`](ports/ide-settings/font-presets.json) and [`ports/linux-fontconfig/70-gotham-noir-fonts.conf`](ports/linux-fontconfig/70-gotham-noir-fonts.conf): **Monaspace Neon + Radon** (default Texture Healing), **Monaspace Argon**, **Intel One Mono**, **Atkinson Hyperlegible Mono**, and **Commit Mono**.
+- **2027 AI Agent & IDE Tokens:** Native styling for `inlineChat`, `chat`, `agentsChatInput`, `editorGhostText`, `editorStickyScroll`, `editorInlayHint`, 6-level bracket colorization, and `terminalCommandDecoration`.
+- **Dyslexia & Readability Font Stack** ([`ports/ide-settings/font-presets.json`](ports/ide-settings/font-presets.json)): **Monaspace Neon + Radon** (default Texture Healing), **Monaspace Argon**, **Intel One Mono**, **Atkinson Hyperlegible Mono**, and **Commit Mono**.
 
 ---
 
