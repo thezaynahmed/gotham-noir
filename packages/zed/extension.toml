@@ -1,6 +1,6 @@
 id = "gotham-noir"
 name = "Gotham Noir"
-description = "4 dark-only nocturnal themes (Gotham Noir, Obsidian, Slate, Crimson) calibrated with OKLCH, APCA contrast, zero halation, and AI/MLOps/DevOps syntax."
+description = "4 anti-halation nocturnal dark themes (Year One, Batcomputer, Arkham Slate, Vengeance) calibrated with OKLCH, APCA contrast, and AI/MLOps/DevOps syntax."
 version = "1.0.0"
 schema_version = 1
 authors = ["Zain Ahmed <thezaynahmed@users.noreply.github.com>"]
