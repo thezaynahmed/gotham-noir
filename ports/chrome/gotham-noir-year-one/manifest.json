@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "Gotham Noir - Year One",
+  "version": "1.0.0",
+  "description": "Gotham Noir - Year One anti-halation dark theme for Chrome (OKLCH + APCA calibrated).",
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [
+        16,
+        18,
+        21
+      ],
+      "frame_inactive": [
+        16,
+        18,
+        21
+      ],
+      "frame_incognito": [
+        16,
+        18,
+        21
+      ],
+      "frame_incognito_inactive": [
+        16,
+        18,
+        21
+      ],
+      "toolbar": [
+        21,
+        23,
+        26
+      ],
+      "toolbar_text": [
+        216,
+        214,
+        207
+      ],
+      "toolbar_button_icon": [
+        135,
+        141,
+        150
+      ],
+      "tab_text": [
+        236,
+        234,
+        228
+      ],
+      "tab_background_text": [
+        135,
+        141,
+        150
+      ],
+      "tab_background_text_inactive": [
+        85,
+        92,
+        102
+      ],
+      "bookmark_text": [
+        216,
+        214,
+        207
+      ],
+      "ntp_background": [
+        21,
+        23,
+        26
+      ],
+      "ntp_text": [
+        216,
+        214,
+        207
+      ],
+      "ntp_link": [
+        240,
+        201,
+        70
+      ],
+      "omnibox_background": [
+        18,
+        20,
+        23
+      ],
+      "omnibox_text": [
+        236,
+        234,
+        228
+      ]
+    }
+  }
+}

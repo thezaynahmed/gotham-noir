@@ -1,0 +1,109 @@
+/* Gotham Noir CSS Palette Tokens (https://github.com/thezaynahmed/gotham-noir) */
+:root,
+[data-gotham-theme="year-one"] {
+  --gn-bg: #15171A;
+  --gn-bg-deep: #101215;
+  --gn-bg-side: #121417;
+  --gn-surface: #1C1F24;
+  --gn-surface-hover: #23272E;
+  --gn-elevated: #20242B;
+  --gn-border: #2D323B;
+  --gn-border-subtle: #23272F;
+  --gn-border-active: #F0C946;
+  --gn-fg: #D8D6CF;
+  --gn-fg-strong: #ECEAE4;
+  --gn-fg-muted: #878D96;
+  --gn-fg-subtle: #555C66;
+  --gn-accent: #F0C946;
+  --gn-accent-fg: #111316;
+  --gn-selection: #323A46;
+  --gn-gold: #F0C946;
+  --gn-blue: #74AEEB;
+  --gn-emerald: #63C794;
+  --gn-cyan: #68C5CE;
+  --gn-amber: #E29754;
+  --gn-violet: #B695E8;
+  --gn-crimson: #E86A74;
+  --gn-rose: #E0A4B8;
+}
+
+[data-gotham-theme="batcomputer"] {
+  --gn-bg: #101215;
+  --gn-bg-deep: #0C0E11;
+  --gn-bg-side: #0E1013;
+  --gn-surface: #16191E;
+  --gn-surface-hover: #1E2229;
+  --gn-elevated: #1A1E25;
+  --gn-border: #272C35;
+  --gn-border-subtle: #1E232B;
+  --gn-border-active: #F5D042;
+  --gn-fg: #DCE0E5;
+  --gn-fg-strong: #EFF2F6;
+  --gn-fg-muted: #828A96;
+  --gn-fg-subtle: #505763;
+  --gn-accent: #F5D042;
+  --gn-accent-fg: #0E1013;
+  --gn-selection: #2B3440;
+  --gn-gold: #F5D042;
+  --gn-blue: #72B4F5;
+  --gn-emerald: #56CCA0;
+  --gn-cyan: #5ECAD6;
+  --gn-amber: #E89B54;
+  --gn-violet: #BC9BF0;
+  --gn-crimson: #EE6B78;
+  --gn-rose: #E6A8C0;
+}
+
+[data-gotham-theme="arkham-slate"] {
+  --gn-bg: #1D1F21;
+  --gn-bg-deep: #17191B;
+  --gn-bg-side: #1A1C1E;
+  --gn-surface: #24272A;
+  --gn-surface-hover: #2C3034;
+  --gn-elevated: #282C30;
+  --gn-border: #373C42;
+  --gn-border-subtle: #2C3035;
+  --gn-border-active: #E6C15A;
+  --gn-fg: #DAD5C7;
+  --gn-fg-strong: #ECE7DA;
+  --gn-fg-muted: #929690;
+  --gn-fg-subtle: #636867;
+  --gn-accent: #E6C15A;
+  --gn-accent-fg: #16181A;
+  --gn-selection: #373E47;
+  --gn-gold: #E6C15A;
+  --gn-blue: #80B0DC;
+  --gn-emerald: #88C082;
+  --gn-cyan: #74BFBD;
+  --gn-amber: #DF9A5F;
+  --gn-violet: #BC9CD9;
+  --gn-crimson: #E37370;
+  --gn-rose: #DDA6B6;
+}
+
+[data-gotham-theme="vengeance"] {
+  --gn-bg: #151417;
+  --gn-bg-deep: #100F12;
+  --gn-bg-side: #121115;
+  --gn-surface: #1C1A1F;
+  --gn-surface-hover: #252229;
+  --gn-elevated: #211E25;
+  --gn-border: #332D36;
+  --gn-border-subtle: #27222A;
+  --gn-border-active: #E5535C;
+  --gn-fg: #DDD8D5;
+  --gn-fg-strong: #F0ECEA;
+  --gn-fg-muted: #918994;
+  --gn-fg-subtle: #5E5661;
+  --gn-accent: #E5535C;
+  --gn-accent-fg: #F8F4F5;
+  --gn-selection: #3A2C33;
+  --gn-gold: #E8BE54;
+  --gn-blue: #7BAEE6;
+  --gn-emerald: #6EC798;
+  --gn-cyan: #6FC2CA;
+  --gn-amber: #E5985A;
+  --gn-violet: #BE9AE6;
+  --gn-crimson: #EF6C74;
+  --gn-rose: #E5A4B4;
+}

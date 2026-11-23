@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "Gotham Noir - Batcomputer",
+  "version": "1.0.0",
+  "description": "Gotham Noir - Batcomputer anti-halation dark theme for Chrome (OKLCH + APCA calibrated).",
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [
+        12,
+        14,
+        17
+      ],
+      "frame_inactive": [
+        12,
+        14,
+        17
+      ],
+      "frame_incognito": [
+        12,
+        14,
+        17
+      ],
+      "frame_incognito_inactive": [
+        12,
+        14,
+        17
+      ],
+      "toolbar": [
+        16,
+        18,
+        21
+      ],
+      "toolbar_text": [
+        220,
+        224,
+        229
+      ],
+      "toolbar_button_icon": [
+        130,
+        138,
+        150
+      ],
+      "tab_text": [
+        239,
+        242,
+        246
+      ],
+      "tab_background_text": [
+        130,
+        138,
+        150
+      ],
+      "tab_background_text_inactive": [
+        80,
+        87,
+        99
+      ],
+      "bookmark_text": [
+        220,
+        224,
+        229
+      ],
+      "ntp_background": [
+        16,
+        18,
+        21
+      ],
+      "ntp_text": [
+        220,
+        224,
+        229
+      ],
+      "ntp_link": [
+        245,
+        208,
+        66
+      ],
+      "omnibox_background": [
+        14,
+        16,
+        19
+      ],
+      "omnibox_text": [
+        239,
+        242,
+        246
+      ]
+    }
+  }
+}

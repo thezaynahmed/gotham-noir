@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="./assets/icon-512.png" width="76" alt="Gotham Noir emblem"><br>
-  <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 dark-only nocturnal variants specimen">
+  <img src="./assets/icon-512.png" width="72" alt="Gotham Noir emblem"><br>
+  <img src="./assets/hero-year-one.png" width="100%" alt="Gotham Noir Year One real code window specimen">
 </p>
 
 # Gotham Noir
@@ -8,9 +8,9 @@
 [![Validate Gotham Noir](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml/badge.svg)](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-15171A?style=flat-square&labelColor=101215&color=F0C946)](LICENSE)
 [![4 Dark Variants](https://img.shields.io/badge/variants-4_dark_only-15171A?style=flat-square&labelColor=101215&color=63C794)](#the-4-dark-variants)
-[![15+ Targets](https://img.shields.io/badge/targets-15%2B_editors_%26_terminals-15171A?style=flat-square&labelColor=101215&color=74AEEB)](#supported-targets)
+[![20+ Targets](https://img.shields.io/badge/targets-20%2B_apps_%26_terminals-15171A?style=flat-square&labelColor=101215&color=74AEEB)](#apps-and-ports)
 
-Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or break `git diff`. Built for developers, AI coding agents, MLOps, and DevOps engineers: **Gotham Noir** compiles 4 dark-only variants from one canonical palette source with OKLCH perceptual balance and APCA contrast across **15+ editors and terminals**.
+Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or break `git diff`. Built for developers, AI coding agents, MLOps, and DevOps engineers by [Zain Ahmed](https://zainahmed.net/): **Gotham Noir** compiles 4 dark-only variants from one canonical palette source with OKLCH perceptual balance and APCA contrast across **20+ editors, terminals, browsers, and design systems**.
 
 <details>
   <summary>Table of Contents</summary>
@@ -18,9 +18,10 @@ Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or b
 - [Why Gotham Noir](#why-gotham-noir)
 - [Quick Start](#quick-start)
 - [The 4 Dark Variants](#the-4-dark-variants)
+- [Apps and Ports](#apps-and-ports)
 - [Palette and Color Architecture](#palette-and-color-architecture)
-- [Supported Targets](#supported-targets)
-- [Build and Contribute](#build-and-contribute)
+- [AI Agent Support and Skills](#ai-agent-support-and-skills)
+- [Build, Security and Community](#build-security-and-community)
 
 </details>
 
@@ -30,7 +31,7 @@ Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or b
 
 Classic nocturnal dark themes looked great in screenshots, then broke down during real engineering work: `#000000`/`#FFFFFF` halation fatigued eyes, `2.8:1` navy functions disappeared on dark gray, and yellow-on-yellow ANSI schemes turned `git diff` and Kubernetes logs into guesswork.
 
-I engineered **Gotham Noir** from color science first: anti-halation matte canvases, equalized OKLCH syntax lightness, and an automated WCAG 2.1 + APCA contrast gate in CI. Each palette translates raw optical clarity into classic 1930s-to-modern detective noir atmosphere: matte Kevlar charcoal, rooftop signal gold, sub-level mainframe emerald, and rain-slicked crimson flare.
+I engineered **Gotham Noir** from color science first: anti-halation matte canvases, equalized OKLCH syntax lightness, and an automated WCAG 2.1 + APCA contrast gate in CI. Each palette translates optical clarity into classic 1930s-to-modern detective noir atmosphere: matte Kevlar charcoal, rooftop signal gold, sub-level mainframe emerald, and rain-slicked crimson flare.
 
 | Pain Point in Legacy Dark Themes | Gotham Noir Engineering Fix |
 | :--- | :--- |
@@ -42,9 +43,9 @@ I engineered **Gotham Noir** from color science first: anti-halation matte canva
 
 ## Quick Start
 
-Sync every supported terminal and editor in one command via companion repo [`thezaynahmed/ghostty-config`](https://github.com/thezaynahmed/ghostty-config), or install your target directly:
+Install via [GitHub Releases](https://github.com/thezaynahmed/gotham-noir/releases/latest) (no clone required), sync all terminals & IDEs in one line via [`ghostty-config`](https://github.com/thezaynahmed/ghostty-config), or add directly to **shadcn/ui**:
 
-**One-line universal setup (macOS & Linux):**
+**1. One-line universal terminal & IDE setup (macOS & Linux):**
 
 `curl -fsSL https://raw.githubusercontent.com/thezaynahmed/ghostty-config/main/install.sh | bash -s -- --all`
 
@@ -53,31 +54,27 @@ Sync every supported terminal and editor in one command via companion repo [`the
 theme-sync year-one --all
 ```
 
-**Install with an AI Agent:** Paste this into Claude Code, Cursor, Antigravity, Codex, Windsurf, or Superset:
-
-```text
-Clone https://github.com/thezaynahmed/gotham-noir.git, read AGENTS.md, build and install the VS Code/Cursor/Zed themes, and verify all contrast gates with python3 -m unittest discover -s tests -v.
-```
-
-<details>
-  <summary>Manual install for VS Code, Cursor, Windsurf, Antigravity IDE, and Zed</summary>
+**2. shadcn/ui (Tailwind v4 & v3):**
 
 ```bash
-git clone https://github.com/thezaynahmed/gotham-noir.git
-cd gotham-noir/packages/vscode
-npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
-code --install-extension gotham-noir-1.0.0.vsix        # or: cursor / windsurf / antigravity-ide
-
-# Zed:
-mkdir -p ~/.config/zed/themes
-cp ../zed/themes/gotham-noir.json ~/.config/zed/themes/
+npx shadcn@latest add https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/shadcn/r/gotham-noir.json
 ```
 
-</details>
+**3. VS Code, Cursor, Windsurf, Antigravity IDE (no git clone needed):**
+
+Download `gotham-noir-1.0.0.vsix` from [Releases](https://github.com/thezaynahmed/gotham-noir/releases/latest) and run:
+
+```bash
+code --install-extension gotham-noir-1.0.0.vsix   # or: cursor / windsurf / antigravity-ide
+```
 
 ---
 
 ## The 4 Dark Variants
+
+<p align="center">
+  <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 dark variants real code specimen grid">
+</p>
 
 | Variant | Canvas | Text | Accent | WCAG / APCA Lc | Best For |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -88,9 +85,31 @@ cp ../zed/themes/gotham-noir.json ~/.config/zed/themes/
 
 ---
 
+## Apps and Ports
+
+| App | What Is Included | Path |
+| :--- | :--- | :--- |
+| **[Zed](packages/zed/)** | Official `v0.2.0` editor theme family + `extension.toml` | [`packages/zed/`](packages/zed/) |
+| **[VS Code / Cursor / Windsurf / Antigravity IDE](packages/vscode/)** | `.vsix` extension (all 4 variants, 2027 AI agent tokens) | [`packages/vscode/`](packages/vscode/) |
+| **[Ghostty](ports/ghostty/)** | Native themes (`ghostty +validate-config` verified) | [`ports/ghostty/`](ports/ghostty/) |
+| **[Warp](ports/warp/)** | Terminal theme YAML files (`warpdotdev/themes` ready) | [`ports/warp/`](ports/warp/) |
+| **[Herdr](ports/herdr/)** | App themes (4 dark variants + warm daylight light) + syntax mod | [`ports/herdr/`](ports/herdr/) |
+| **[GitHub](ports/github/)** | Stylus UserStyle for GitHub UI, diffs, and code blocks | [`ports/github/`](ports/github/) |
+| **[Linear](ports/linear/)** | Interface theme LCH JSON strings + code block UserStyle | [`ports/linear/`](ports/linear/) |
+| **[Slack](ports/slack/)** | Copy-pasteable 10-color and 4-color sidebar themes | [`ports/slack/`](ports/slack/) |
+| **[Chrome](ports/chrome/)** | Manifest V3 browser themes (unpacked loadable folders) | [`ports/chrome/`](ports/chrome/) |
+| **[shadcn/ui](ports/shadcn/)** | Tailwind v4/v3 CSS tokens + `npx shadcn add` registry JSON | [`ports/shadcn/`](ports/shadcn/) |
+| **[Palette](ports/palette/)** | `gotham-noir.css`, `gotham.css`, and W3C `tokens.json` (hex + OKLCH) | [`ports/palette/`](ports/palette/) |
+| **[Fonts](ports/fonts/)** | Dyslexia & readability typography presets (`Monaspace`, `Intel One`, `Atkinson`) | [`ports/fonts/`](ports/fonts/) |
+| **[Kitty / Alacritty / WezTerm](ports/kitty/)** | Native Kitty (`kitty +kitten themes` merged!), Alacritty TOML, WezTerm Lua | [`ports/kitty/`](ports/kitty/), [`ports/alacritty/`](ports/alacritty/), [`ports/wezterm/`](ports/wezterm/) |
+| **[iTerm2 / macOS Terminal / Windows Terminal](ports/iterm2/)** | `.itermcolors`, XML `.terminal` plists, Windows Terminal JSON | [`ports/iterm2/`](ports/iterm2/), [`ports/macos-terminal/`](ports/macos-terminal/), [`ports/windows-terminal/`](ports/windows-terminal/) |
+| **[Paradev / Antigravity App / tmux / Zsh](ports/paradev/)** | Paradev JSON, Regular Antigravity 3-color presets, tmux split dimming, `LS_COLORS` | [`ports/paradev/`](ports/paradev/), [`ports/antigravity-app/`](ports/antigravity-app/), [`ports/tmux/`](ports/tmux/) |
+
+---
+
 ## Palette and Color Architecture
 
-Reference swatches from the flagship **Year One** palette (all 4 canonical palettes live in [`palettes/`](palettes/)):
+Flagship **Year One** swatches (full tokens in [`ports/palette/gotham-noir.css`](ports/palette/gotham-noir.css) and [`ports/palette/tokens.json`](ports/palette/tokens.json)):
 
 | Swatch | Role | Semantic Assignment |
 | :--- | :--- | :--- |
@@ -104,28 +123,26 @@ Reference swatches from the flagship **Year One** palette (all 4 canonical palet
 | ![](https://img.shields.io/badge/-%23B695E8-B695E8?style=flat-square) | **Noir Violet** | Control keywords (`async`, `return`, `import`) and decorators |
 | ![](https://img.shields.io/badge/-%23E86A74-E86A74?style=flat-square) | **Alert Crimson** | Errors, `git diff` deletions, and mismatched brackets |
 
-- **2027 AI Agent & IDE Tokens:** Native styling for `inlineChat`, `chat`, `agentsChatInput`, `editorGhostText`, `editorStickyScroll`, `editorInlayHint`, 6-level bracket colorization, and `terminalCommandDecoration`.
-- **Dyslexia & Readability Font Stack** ([`ports/ide-settings/font-presets.json`](ports/ide-settings/font-presets.json)): **Monaspace Neon + Radon** (default Texture Healing), **Monaspace Argon**, **Intel One Mono**, **Atkinson Hyperlegible Mono**, and **Commit Mono**.
+---
+
+## AI Agent Support and Skills
+
+This repository ships full native support for **Claude Code**, **Codex**, **Cursor**, **Antigravity**, **Gemini CLI**, **Windsurf**, and **Superset**:
+
+- **Installable Agent Skill:** [`skills/gotham-noir/SKILL.md`](skills/gotham-noir/SKILL.md) (`npx skills add thezaynahmed/gotham-noir`)
+- **Agent Entrypoints:** [`AGENTS.md`](AGENTS.md), [`CLAUDE.md`](CLAUDE.md), and [`llms.txt`](llms.txt)
+
+Paste into any coding agent to install and verify automatically:
+
+```text
+Clone https://github.com/thezaynahmed/gotham-noir.git, read AGENTS.md (or skills/gotham-noir/SKILL.md), install Gotham Noir for my editors, terminals, and apps, and verify with python3 -m unittest discover -s tests -v.
+```
 
 ---
 
-## Supported Targets
+## Build, Security and Community
 
-| Target | Location | Format |
-| :--- | :--- | :--- |
-| **VS Code / Cursor / Windsurf / Antigravity IDE** | [`packages/vscode/`](packages/vscode/) | Publishable `.vsix` extension (all 4 variants) |
-| **Zed** | [`packages/zed/`](packages/zed/) | Official `v0.2.0` theme family JSON + `extension.toml` |
-| **Regular Antigravity (Native Appearance)** | [`ports/antigravity-app/`](ports/antigravity-app/) | Native 3-color presets (`Background`, `Foreground`, `Accent`, `Contrast`) |
-| **Ghostty** (macOS & Linux) | [`ports/ghostty/`](ports/ghostty/) | Native themes (`ghostty +validate-config` verified) |
-| **Warp / Alacritty / WezTerm / Kitty** | [`ports/warp/`](ports/warp/), [`ports/alacritty/`](ports/alacritty/), [`ports/wezterm/`](ports/wezterm/), [`ports/kitty/`](ports/kitty/) | YAML, TOML, Lua, and metadata `.conf` ports |
-| **iTerm2 / macOS Terminal.app / Windows Terminal** | [`ports/iterm2/`](ports/iterm2/), [`ports/macos-terminal/`](ports/macos-terminal/), [`ports/windows-terminal/`](ports/windows-terminal/) | `.itermcolors`, XML `.terminal` plists, JSON schemes |
-| **tmux / Zsh / Fontconfig / Paradev** | [`ports/tmux/`](ports/tmux/), [`ports/zsh/`](ports/zsh/), [`ports/linux-fontconfig/`](ports/linux-fontconfig/), [`ports/paradev/`](ports/paradev/) | Split dimming, `LS_COLORS`, hinting rules, Paradev JSON |
-
----
-
-## Build and Contribute
-
-Regenerate every port from [`palettes/`](palettes/), run the contrast + E2E test suite, and build the `.vsix` locally:
+Regenerate every port from [`palettes/`](palettes/), run contrast + E2E tests, and build the `.vsix` locally:
 
 ```bash
 python3 scripts/build.py
@@ -133,7 +150,7 @@ python3 -m unittest discover -s tests -v
 cd packages/vscode && npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
 ```
 
-- Maintainer: [`@thezaynahmed`](https://github.com/thezaynahmed)
-- Contributing & Publishing: See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`PUBLISH.md`](PUBLISH.md), or open an issue on [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues).
-- Independent Project Notice: Gotham Noir is an independent, original open-source color system created by Zain Ahmed and is not affiliated with or endorsed by any studio or publisher.
-- License: [MIT](LICENSE)
+- **Maintainer:** Zain Ahmed ([`@thezaynahmed`](https://github.com/thezaynahmed) | [zainahmed.net](https://zainahmed.net/))
+- **Governance & Community:** [Contributing](CONTRIBUTING.md) | [Code of Conduct](CODE_OF_CONDUCT.md) | [Security Policy](SECURITY.md) | [Publishing Guide](PUBLISH.md) | [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues)
+- **Independent Project Notice:** Gotham Noir is an independent, original open-source color system created by Zain Ahmed and is not affiliated with or endorsed by any studio or publisher.
+- **License:** [MIT](LICENSE)

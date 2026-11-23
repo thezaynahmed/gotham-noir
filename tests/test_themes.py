@@ -239,6 +239,69 @@ class GothamNoirTests(unittest.TestCase):
         after = {p: p.read_text(encoding="utf-8") for p in targets}
         self.assertEqual(before, after)
 
+    def test_web_browser_design_system_oss_and_skill_ports(self) -> None:
+        # Herdr (4 dark + 1 daylight light + syntax helper)
+        for slug in ("gotham-noir-year-one", "gotham-noir-batcomputer", "gotham-noir-arkham-slate", "gotham-noir-vengeance", "gotham-noir-daylight"):
+            doc = json.loads((ROOT / "ports" / "herdr" / f"{slug}.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(doc["ansi"]), 16)
+            self.assertIn("accent", doc["colors"])
+        self.assertTrue((ROOT / "ports" / "herdr" / "gotham-noir-syntax.js").exists())
+
+        # GitHub UserStyle
+        gh_css = (ROOT / "ports" / "github" / "gotham-noir.user.css").read_text(encoding="utf-8")
+        self.assertIn('domain("github.com")', gh_css)
+        self.assertIn("#15171A", gh_css)
+
+        # Linear LCH JSON + UserStyle
+        for pal in self.palettes:
+            lin = json.loads((ROOT / "ports" / "linear" / f"{pal['slug']}.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(lin["base"]), 4)
+            self.assertEqual(len(lin["accent"]), 4)
+            self.assertIn("sidebar", lin)
+        self.assertIn('domain("linear.app")', (ROOT / "ports" / "linear" / "gotham-noir.user.css").read_text(encoding="utf-8"))
+
+        # Slack sidebar strings
+        for pal in self.palettes:
+            txt = (ROOT / "ports" / "slack" / f"{pal['slug']}.txt").read_text(encoding="utf-8").strip()
+            self.assertEqual(len(txt.split(",")), 10)
+
+        # Chrome MV3 browser themes
+        for pal in self.palettes:
+            mpath = ROOT / "ports" / "chrome" / pal["slug"] / "manifest.json"
+            m = json.loads(mpath.read_text(encoding="utf-8"))
+            self.assertEqual(m["manifest_version"], 3)
+            self.assertEqual(len(m["theme"]["colors"]["frame"]), 3)
+            self.assertTrue((ROOT / "ports" / "chrome" / pal["slug"] / "icon-128.png").exists())
+
+        # shadcn/ui CSS + registry JSON
+        sh_reg = json.loads((ROOT / "ports" / "shadcn" / "r" / "gotham-noir.json").read_text(encoding="utf-8"))
+        self.assertEqual(sh_reg["type"], "registry:theme")
+        self.assertIn("dark", sh_reg["cssVars"])
+        self.assertIn(".dark", (ROOT / "ports" / "shadcn" / "gotham-noir.css").read_text(encoding="utf-8"))
+
+        # Palette CSS (both gotham-noir.css & gotham.css) + W3C tokens.json
+        gn_css = (ROOT / "ports" / "palette" / "gotham-noir.css").read_text(encoding="utf-8")
+        g_css = (ROOT / "ports" / "palette" / "gotham.css").read_text(encoding="utf-8")
+        self.assertEqual(gn_css, g_css)
+        self.assertIn("--gn-bg: #15171A;", gn_css)
+        tokens = json.loads((ROOT / "ports" / "palette" / "tokens.json").read_text(encoding="utf-8"))
+        self.assertIn("year-one", tokens)
+        self.assertTrue(tokens["year-one"]["syntax"]["gold"]["oklch"].startswith("oklch("))
+
+        # Fonts doc, real-code hero PNGs, OSS community health files, and Agent Skill
+        for rel in (
+            "ports/fonts/README.md",
+            "assets/hero-year-one.png",
+            "CODE_OF_CONDUCT.md",
+            "SECURITY.md",
+            "CONTRIBUTING.md",
+            ".github/CODEOWNERS",
+            "skills/gotham-noir/SKILL.md",
+            "skills/gotham-noir/references/palettes.md",
+            "llms.txt",
+        ):
+            self.assertTrue((ROOT / rel).exists(), f"Missing required file {rel}")
+
 
 if __name__ == "__main__":
     unittest.main()

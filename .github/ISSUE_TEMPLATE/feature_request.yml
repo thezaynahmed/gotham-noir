@@ -1,0 +1,18 @@
+name: New Port or Feature Request
+description: Propose a new editor, terminal, app port, or palette refinement
+labels: ["enhancement"]
+body:
+  - type: input
+    id: app
+    attributes:
+      label: Target App or Feature
+      placeholder: "e.g. Neovim, Helix, Obsidian, Raycast"
+    validations:
+      required: true
+  - type: textarea
+    id: format
+    attributes:
+      label: Theme format / official documentation link
+      description: Link to the target app's theme schema or example config.
+    validations:
+      required: true
