@@ -81,22 +81,22 @@ jobs:
 
           $mockSettings = Join-Path $env:RUNNER_TEMP "wt-settings.json"
           $mockFragment = Join-Path $env:RUNNER_TEMP "wt-fragments"
-          $jsoncInput = @"
-// User comment with URL https://aka.ms/terminal-profiles-schema
-{
-  "`$schema": "https://aka.ms/terminal-profiles-schema",
-  /* Multi-line JSONC comment
-     preserving custom schemes and paths */
-  "schemes": [
-    { "name": "José Custom", "background": "#111111" }
-  ],
-  "profiles": {
-    "defaults": {
-      "icon": "C:\\Users\\José\\icon.png"
-    }
-  }
-}
-"@
+          $jsoncInput = (@(
+            '// User comment with URL https://aka.ms/terminal-profiles-schema',
+            '{',
+            '  "$schema": "https://aka.ms/terminal-profiles-schema",',
+            '  /* Multi-line JSONC comment',
+            '     preserving custom schemes and paths */',
+            '  "schemes": [',
+            '    { "name": "José Custom", "background": "#111111" }',
+            '  ],',
+            '  "profiles": {',
+            '    "defaults": {',
+            '      "icon": "C:\\Users\\José\\icon.png"',
+            '    }',
+            '  }',
+            '}'
+          ) -join "`n")
           [System.IO.File]::WriteAllText($mockSettings, $jsoncInput, [System.Text.UTF8Encoding]::new($false))
 
           & ./ports/windows-terminal/install-windows-terminal.ps1 -Variant "Batcomputer" -SettingsPath $mockSettings -FragmentDir $mockFragment
