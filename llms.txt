@@ -1,0 +1,20 @@
+# Gotham Noir
+
+> Anti-halation nocturnal dark theme ecosystem (4 variants: Year One, Batcomputer, Arkham Slate, Vengeance) compiled from canonical OKLCH + APCA JSON palettes across 20+ editors, terminals, browsers, web apps, and shadcn/ui projects. Created by Zain Ahmed (https://zainahmed.net/).
+
+## Agent Setup & Skills
+- [Agent Skill (SKILL.md)](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/skills/gotham-noir/SKILL.md): Installable Agent Skill (`npx skills add thezaynahmed/gotham-noir`) for Claude Code, Codex, Cursor, Antigravity, and Gemini CLI.
+- [AGENTS.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/AGENTS.md): Automated build, install, and verification steps.
+- [Palette Reference](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/skills/gotham-noir/references/palettes.md): Exact WCAG 2.1, APCA Lc, hex, and CSS variable tokens.
+
+## Machine-Readable Tokens & Registries
+- [W3C Design Tokens JSON](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/palette/tokens.json)
+- [CSS Palette (gotham-noir.css)](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/palette/gotham-noir.css)
+- [shadcn/ui Registry Item](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/ports/shadcn/r/gotham-noir.json)
+- [GitHub Releases (.vsix & ports zip)](https://github.com/thezaynahmed/gotham-noir/releases)
+
+## Documentation & Governance
+- [README.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/README.md)
+- [CONTRIBUTING.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/CONTRIBUTING.md)
+- [SECURITY.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/SECURITY.md)
+- [CODE_OF_CONDUCT.md](https://raw.githubusercontent.com/thezaynahmed/gotham-noir/main/CODE_OF_CONDUCT.md)

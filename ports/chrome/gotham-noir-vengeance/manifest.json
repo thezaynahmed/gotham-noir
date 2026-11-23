@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "Gotham Noir - Vengeance",
+  "version": "1.0.0",
+  "description": "Gotham Noir - Vengeance anti-halation dark theme for Chrome (OKLCH + APCA calibrated).",
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [
+        16,
+        15,
+        18
+      ],
+      "frame_inactive": [
+        16,
+        15,
+        18
+      ],
+      "frame_incognito": [
+        16,
+        15,
+        18
+      ],
+      "frame_incognito_inactive": [
+        16,
+        15,
+        18
+      ],
+      "toolbar": [
+        21,
+        20,
+        23
+      ],
+      "toolbar_text": [
+        221,
+        216,
+        213
+      ],
+      "toolbar_button_icon": [
+        145,
+        137,
+        148
+      ],
+      "tab_text": [
+        240,
+        236,
+        234
+      ],
+      "tab_background_text": [
+        145,
+        137,
+        148
+      ],
+      "tab_background_text_inactive": [
+        94,
+        86,
+        97
+      ],
+      "bookmark_text": [
+        221,
+        216,
+        213
+      ],
+      "ntp_background": [
+        21,
+        20,
+        23
+      ],
+      "ntp_text": [
+        221,
+        216,
+        213
+      ],
+      "ntp_link": [
+        229,
+        83,
+        92
+      ],
+      "omnibox_background": [
+        18,
+        17,
+        21
+      ],
+      "omnibox_text": [
+        240,
+        236,
+        234
+      ]
+    }
+  }
+}

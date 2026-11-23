@@ -10,10 +10,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from assets import generate_icon_png, generate_palette_preview_png
+from assets import generate_code_window_png, generate_icon_png, generate_palette_preview_png
 from contrast import verify_palette
 from generators_ide import write_ide_outputs
 from generators_terminals import write_terminal_ports
+from generators_web_apps import write_web_and_app_ports
 
 
 def load_palettes(palettes_dir: Path) -> list[dict]:
@@ -39,6 +40,14 @@ def clean_generated_dirs(root: Path) -> None:
         root / "ports" / "iterm2",
         root / "ports" / "macos-terminal",
         root / "ports" / "tmux",
+        root / "ports" / "herdr",
+        root / "ports" / "github",
+        root / "ports" / "linear",
+        root / "ports" / "slack",
+        root / "ports" / "chrome",
+        root / "ports" / "shadcn",
+        root / "ports" / "palette",
+        root / "ports" / "fonts",
     ]
     for d in dirs:
         if d.exists():
@@ -59,14 +68,20 @@ def main() -> int:
     shutil.copy2(root / "LICENSE", root / "packages" / "vscode" / "LICENSE")
     generate_icon_png(root / "assets" / "icon-512.png", size=512)
     generate_icon_png(root / "packages" / "vscode" / "images" / "icon.png", size=128)
+    generate_code_window_png(palettes[0], root / "assets" / "hero-year-one.png")
+    for pal in palettes:
+        generate_code_window_png(pal, root / "assets" / f"preview-{pal['slug'].replace('gotham-noir-', '')}.png")
     generate_palette_preview_png(palettes, root / "packages" / "vscode" / "images" / "palette-preview.png")
-    print("✓ Generated PNG assets (0 SVGs)")
+    print("✓ Generated crisp real-code PNG assets (0 SVGs)")
 
     write_ide_outputs(palettes, root)
     print("✓ Generated VS Code, Zed, Antigravity presets, Paradev themes, and IDE configs")
 
     write_terminal_ports(palettes, root)
     print("✓ Generated Ghostty, Warp, Alacritty, WezTerm, Kitty, Windows Terminal, iTerm2, macOS Terminal, tmux, Fontconfig & Zsh ports")
+
+    write_web_and_app_ports(palettes, root)
+    print("✓ Generated Herdr, GitHub, Linear, Slack, Chrome, shadcn/ui, Palette CSS & Fonts ports")
     return 0
 
 

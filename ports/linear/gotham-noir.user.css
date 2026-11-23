@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name         Gotham Noir for Linear Code Blocks
+@namespace    gotham-noir
+@version      1.0.0
+@description  Gotham Noir Year One syntax colors for Linear code blocks and diffs.
+@author       Zain Ahmed (https://zainahmed.net/)
+@license      MIT
+==/UserStyle== */
+
+@-moz-document domain("linear.app") {
+  pre, code, [data-line-text] {
+    font-family: "Monaspace Neon", "JetBrains Mono", ui-monospace, Menlo, monospace !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    pre, pre code {
+      background-color: #121417 !important;
+      color: #D8D6CF !important;
+    }
+    [class*="syntax-comment"] { color: #878D96 !important; font-style: italic !important; }
+    [class*="syntax-string"] { color: #63C794 !important; }
+    [class*="syntax-keyword"] { color: #B695E8 !important; }
+    [class*="syntax-function"] { color: #74AEEB !important; }
+    [class*="syntax-type"], [class*="syntax-class"] { color: #F0C946 !important; }
+    [class*="syntax-number"], [class*="syntax-constant"] { color: #E29754 !important; }
+    [class*="syntax-operator"] { color: #68C5CE !important; }
+  }
+}

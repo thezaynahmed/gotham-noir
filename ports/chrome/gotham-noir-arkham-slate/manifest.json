@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "Gotham Noir - Arkham Slate",
+  "version": "1.0.0",
+  "description": "Gotham Noir - Arkham Slate anti-halation dark theme for Chrome (OKLCH + APCA calibrated).",
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [
+        23,
+        25,
+        27
+      ],
+      "frame_inactive": [
+        23,
+        25,
+        27
+      ],
+      "frame_incognito": [
+        23,
+        25,
+        27
+      ],
+      "frame_incognito_inactive": [
+        23,
+        25,
+        27
+      ],
+      "toolbar": [
+        29,
+        31,
+        33
+      ],
+      "toolbar_text": [
+        218,
+        213,
+        199
+      ],
+      "toolbar_button_icon": [
+        146,
+        150,
+        144
+      ],
+      "tab_text": [
+        236,
+        231,
+        218
+      ],
+      "tab_background_text": [
+        146,
+        150,
+        144
+      ],
+      "tab_background_text_inactive": [
+        99,
+        104,
+        103
+      ],
+      "bookmark_text": [
+        218,
+        213,
+        199
+      ],
+      "ntp_background": [
+        29,
+        31,
+        33
+      ],
+      "ntp_text": [
+        218,
+        213,
+        199
+      ],
+      "ntp_link": [
+        230,
+        193,
+        90
+      ],
+      "omnibox_background": [
+        26,
+        28,
+        30
+      ],
+      "omnibox_text": [
+        236,
+        231,
+        218
+      ]
+    }
+  }
+}

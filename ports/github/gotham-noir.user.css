@@ -1,0 +1,58 @@
+/* ==UserStyle==
+@name         Gotham Noir for GitHub
+@namespace    gotham-noir
+@version      1.0.0
+@description  Anti-halation Gotham Noir Year One dark theme for GitHub UI, diffs, and code blocks.
+@author       Zain Ahmed (https://zainahmed.net/)
+@license      MIT
+==/UserStyle== */
+
+@-moz-document domain("github.com") {
+  :root {
+    --fontStack-monospace: "Monaspace Neon", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  }
+
+  [data-color-mode="dark"],
+  [data-color-mode="auto"][data-dark-theme*="dark"] {
+    color-scheme: dark;
+    --bgColor-default: #15171A !important;
+    --bgColor-muted: #121417 !important;
+    --bgColor-inset: #101215 !important;
+    --bgColor-emphasis: #23272E !important;
+    --bgColor-inverse: #ECEAE4 !important;
+    --bgColor-disabled: #1C1F24 !important;
+    --bgColor-neutral-emphasis: #555C66 !important;
+    --bgColor-neutral-muted: #878D9626 !important;
+    --bgColor-accent-emphasis: #74AEEB !important;
+    --bgColor-accent-muted: #74AEEB26 !important;
+    --bgColor-success-emphasis: #63C794 !important;
+    --bgColor-success-muted: #63C79426 !important;
+    --bgColor-attention-emphasis: #F0C946 !important;
+    --bgColor-attention-muted: #F0C94626 !important;
+    --bgColor-danger-emphasis: #E86A74 !important;
+    --bgColor-danger-muted: #E86A7426 !important;
+    --fgColor-default: #D8D6CF !important;
+    --fgColor-muted: #878D96 !important;
+    --fgColor-accent: #74AEEB !important;
+    --fgColor-success: #63C794 !important;
+    --fgColor-attention: #F0C946 !important;
+    --fgColor-danger: #E86A74 !important;
+    --borderColor-default: #2D323B !important;
+    --borderColor-muted: #23272F !important;
+    --borderColor-accent-emphasis: #F0C946 !important;
+    --diffBlob-addition-bgColor-line: #63C79416 !important;
+    --diffBlob-addition-bgColor-word: #63C79424 !important;
+    --diffBlob-deletion-bgColor-line: #E86A7418 !important;
+    --diffBlob-deletion-bgColor-word: #E86A7426 !important;
+    --color-prettylights-syntax-comment: #878D96 !important;
+    --color-prettylights-syntax-constant: #E29754 !important;
+    --color-prettylights-syntax-entity: #74AEEB !important;
+    --color-prettylights-syntax-entity-tag: #74AEEB !important;
+    --color-prettylights-syntax-keyword: #B695E8 !important;
+    --color-prettylights-syntax-string: #63C794 !important;
+    --color-prettylights-syntax-variable: #E29754 !important;
+    --color-prettylights-syntax-markup-heading: #F0C946 !important;
+    --color-prettylights-syntax-markup-inserted-text: #63C794 !important;
+    --color-prettylights-syntax-markup-deleted-text: #E86A74 !important;
+  }
+}

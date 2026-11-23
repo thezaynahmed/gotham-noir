@@ -1,0 +1,24 @@
+name: Bug Report
+description: Report a broken port, contrast regression, or build error
+labels: ["bug"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: Affected App / Target
+      placeholder: "e.g. VS Code, Zed, Ghostty, Herdr, shadcn/ui, Linear"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include variant name, OS, app version, and reproduction steps.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
