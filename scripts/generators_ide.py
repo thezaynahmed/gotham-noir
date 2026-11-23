@@ -893,6 +893,12 @@ def write_ide_outputs(palettes: list[dict], root: Path) -> None:
     flagship = palettes[0]
     ag_dir = root / "ports" / "antigravity-app"
     ag_dir.mkdir(parents=True, exist_ok=True)
+    ag_notes = {
+        "gotham-noir-year-one": "Matte Kevlar charcoal + rooftop signal gold (1939/1987 noir)",
+        "gotham-noir-batcomputer": "Sub-level OLED obsidian control plane + emerald telemetry",
+        "gotham-noir-arkham-slate": "Weathered warm slate + antique gold for 3 AM zero-glare",
+        "gotham-noir-vengeance": "Rain-soaked dark chrome + tactical crimson flare",
+    }
     ag_presets = [
         {
             "name": pal["name"],
@@ -900,19 +906,19 @@ def write_ide_outputs(palettes: list[dict], root: Path) -> None:
             "background": pal["ui"]["bg"],
             "foreground": pal["ui"]["fg"],
             "accent": pal["ui"]["accent"],
-            "lore": pal.get("lore", {}).get("era", ""),
+            "note": ag_notes.get(pal["id"], pal["shortName"]),
         }
         for pal in palettes
     ]
     (ag_dir / "presets.json").write_text(json.dumps({"presets": ag_presets}, indent=2) + "\n", encoding="utf-8")
     ag_rows = "\n".join(
-        f"| **{p['name']}** | `{p['contrast']}` | `{p['background']}` | `{p['foreground']}` | `{p['accent']}` | {p['lore']} |"
+        f"| **{p['name']}** | `{p['contrast']}` | `{p['background']}` | `{p['foreground']}` | `{p['accent']}` | {p['note']} |"
         for p in ag_presets
     )
     (ag_dir / "README.md").write_text(
-        "# Regular Antigravity — Native Appearance Presets\n\n"
+        "# Regular Antigravity: Native Appearance Presets\n\n"
         "In Regular Antigravity **Settings -> Appearance -> Dark Theme**, enter these exact values:\n\n"
-        "| Variant | Contrast | Background | Foreground | Accent | Lore |\n"
+        "| Variant | Contrast | Background | Foreground | Accent | Character |\n"
         "| :--- | :--- | :--- | :--- | :--- | :--- |\n"
         f"{ag_rows}\n",
         encoding="utf-8",

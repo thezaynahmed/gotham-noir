@@ -1,83 +1,124 @@
-# Gotham Noir
-
 <p align="center">
-  <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 lore-accurate dark-only variants specimen">
+  <img src="./packages/vscode/images/palette-preview.png" width="100%" alt="Gotham Noir 4 dark-only nocturnal variants specimen">
 </p>
 
-> *"Without fear, life has no meaning."* — **Detective Comics #27 · Gotham, Year One**
+# Gotham Noir
 
-**Gotham Noir** is a dark-only, Single-Source-of-Truth (SSOT) theme ecosystem built for Batman fans and **2027 AI coding agents, MLOps, DevOps, and software engineers**.
+[![Validate Gotham Noir](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml/badge.svg)](https://github.com/thezaynahmed/gotham-noir/actions/workflows/validate.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-15171A?style=flat-square&labelColor=101215&color=F0C946)](LICENSE)
+[![4 Dark Variants](https://img.shields.io/badge/variants-4_dark_only-15171A?style=flat-square&labelColor=101215&color=63C794)](#the-4-dark-variants)
+[![15+ Targets](https://img.shields.io/badge/targets-15%2B_editors_%26_terminals-15171A?style=flat-square&labelColor=101215&color=74AEEB)](#supported-targets)
 
-Every color across all 4 lore-accurate variants and 20+ editors/terminals compiles from canonical JSON palettes ([`palettes/`](palettes/)) and passes an automated **WCAG 2.1 + APCA Lc** contrast gate.
+Dark themes that won't fry your eyes at 3 AM, bury functions in muddy navy, or break `git diff`. Built for developers, AI coding agents, MLOps, and DevOps engineers: **Gotham Noir** compiles 4 dark-only variants from one canonical palette source with OKLCH perceptual balance and APCA contrast across **15+ editors and terminals**.
+
+<details>
+  <summary>Table of Contents</summary>
+
+- [Why Gotham Noir](#why-gotham-noir)
+- [Quick Start](#quick-start)
+- [The 4 Dark Variants](#the-4-dark-variants)
+- [Color Architecture and Fonts](#color-architecture-and-fonts)
+- [Supported Targets](#supported-targets)
+- [Build and Contribute](#build-and-contribute)
+
+</details>
 
 ---
 
-## 4 Lore-Accurate Dark-Only Variants
+## Why Gotham Noir
 
-| Variant | Background | Foreground | Accent | WCAG FG / APCA Lc | Batman Lore & Era |
+Classic nocturnal dark themes looked great in screenshots, then broke down during real engineering work: `#000000`/`#FFFFFF` halation fatigued eyes, `2.8:1` navy functions disappeared on dark gray, and yellow-on-yellow ANSI schemes turned `git diff` and Kubernetes logs into guesswork.
+
+I engineered **Gotham Noir** from color science first: anti-halation matte canvases, equalized OKLCH syntax lightness, and an automated WCAG 2.1 + APCA contrast gate in CI. Each palette translates raw optical clarity into classic 1930s-to-modern detective noir atmosphere: matte Kevlar charcoal, rooftop signal gold, sub-level mainframe emerald, and rain-slicked crimson flare.
+
+| Pain Point in Legacy Dark Themes | Gotham Noir Engineering Fix |
+| :--- | :--- |
+| `#000000` / `#FFFFFF` screen halation and eye shimmer | Softened charcoal canvases (`#101215` to `#1D1F21`) paired with warm parchment (`#D8D6CF` to `#DCE0E5`) |
+| Functions and types buried at `< 3:1` contrast | `11.28:1` to `14.15:1` primary WCAG contrast (`Lc 79.2` to `87.0` APCA) across every variant |
+| Muddy ANSI red/green collisions in `git diff` | >= 110 degree circular hue separation between crimson alerts and emerald additions |
+
+---
+
+## Quick Start
+
+Sync every supported terminal and editor in one command via companion repo [`thezaynahmed/ghostty-config`](https://github.com/thezaynahmed/ghostty-config), or install your target directly:
+
+**One-line universal setup (macOS & Linux):**
+
+`curl -fsSL https://raw.githubusercontent.com/thezaynahmed/ghostty-config/main/install.sh | bash -s -- --all`
+
+```bash
+# Switch all synced terminals and IDEs at once:
+theme-sync year-one --all
+```
+
+**Install with an AI Agent:** Paste this into Claude Code, Cursor, Antigravity, Codex, Windsurf, or Superset:
+
+```text
+Clone https://github.com/thezaynahmed/gotham-noir.git, read AGENTS.md, build and install the VS Code/Cursor/Zed themes, and verify all contrast gates with python3 -m unittest discover -s tests -v.
+```
+
+<details>
+  <summary>Manual install for VS Code, Cursor, Windsurf, Antigravity IDE, and Zed</summary>
+
+```bash
+git clone https://github.com/thezaynahmed/gotham-noir.git
+cd gotham-noir/packages/vscode
+npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
+code --install-extension gotham-noir-1.0.0.vsix        # or: cursor / windsurf / antigravity-ide
+
+# Zed:
+mkdir -p ~/.config/zed/themes
+cp ../zed/themes/gotham-noir.json ~/.config/zed/themes/
+```
+
+</details>
+
+---
+
+## The 4 Dark Variants
+
+| Variant | Background | Foreground | Accent | WCAG / APCA Lc | Visual Character & Use Case |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Gotham Noir - Year One`** *(Flagship)* | `#15171A` | `#D8D6CF` | `#F0C946` GCPD Signal | `12.35:1` / `Lc 80.7` | *Detective Comics #27 (1939)* · *Year One (1987)* · *'89 Kevlar* |
-| **`Gotham Noir - Batcomputer`** | `#101215` | `#DCE0E5` | `#F5D042` + `#56CCA0` | `14.15:1` / `Lc 87.0` | *Sub-Level 04 Mainframe* · *Lucius Fox Applied Sciences* · *Oracle CRT* |
-| **`Gotham Noir - Arkham Slate`** | `#1D1F21` | `#DAD5C7` | `#E6C15A` Antique Gold | `11.28:1` / `Lc 79.2` | *Arkham Island Stonework* · *Detective Mode HUD* · *3 AM Zero-Glare* |
-| **`Gotham Noir - Vengeance`** | `#151417` | `#DDD8D5` | `#E5535C` Crimson | `12.98:1` / `Lc 82.7` | *The Batman (2022)* · *Iceberg Lounge Flare* · *Red Hood / Phantasm* |
+| **`Gotham Noir - Year One`** *(Flagship)* | `#15171A` | `#D8D6CF` | `#F0C946` Signal Gold | `12.35:1` / `Lc 80.7` | Matte Kevlar charcoal + rooftop halogen gold for all-day engineering |
+| **`Gotham Noir - Batcomputer`** | `#101215` | `#DCE0E5` | `#F5D042` + `#56CCA0` | `14.15:1` / `Lc 87.0` | OLED obsidian control plane tuned for AI agents, K8s, and MLOps logs |
+| **`Gotham Noir - Arkham Slate`** | `#1D1F21` | `#DAD5C7` | `#E6C15A` Antique Gold | `11.28:1` / `Lc 79.2` | Weathered warm slate + low-saturation gold for 3 AM zero-glare focus |
+| **`Gotham Noir - Vengeance`** | `#151417` | `#DDD8D5` | `#E5535C` Flare Crimson | `12.98:1` / `Lc 82.7` | Rain-soaked dark chrome + tactical crimson for high-focus night sprints |
 
 ---
 
-## Lore & Token Codex + Fan Easter Eggs
+## Color Architecture and Fonts
 
-1. **VS Code Scope Inspector Easter Egg**: Run *Developer: Inspect Editor Tokens and Scopes* to see the WayneTech codex (`Nomex Kevlar`, `Crime Alley`, `GCPD Signal`, `Detective Mode`, `Oracle Emerald`, `Cryo Sonar`, `Utility Belt Brass`, `Ace Chemicals Violet`, `Red Hood Crimson`, `Martha's Pearl`, `Gotham Fog`).
-2. **Ghostty CLI Fan Aliases & `--signal` Easter Egg** (via [`ghostty-config`](https://github.com/thezaynahmed/ghostty-config)):
-   - `ghostty-theme batman --all` / `year-one` / `detective-27` / `89` → **`Gotham Noir - Year One`**
-   - `ghostty-theme batcomputer --all` / `batcave` / `oracle` / `brother-eye` / `lucius` → **`Gotham Noir - Batcomputer`**
-   - `ghostty-theme arkham --all` / `detective-mode` / `narrows` / `asylum` → **`Gotham Noir - Arkham Slate`**
-   - `ghostty-theme vengeance --all` / `2022` / `red-hood` / `phantasm` / `iceberg` → **`Gotham Noir - Vengeance`**
-   - `ghostty-theme --signal` → Prints a read-only **WAYNE ENTERPRISES // BATCOMPUTER DIAGNOSTIC (DETECTIVE #27)** card with live ANSI swatches.
-3. **6-Level Bracket Pair Lore**: `GCPD Signal` → `Detective Mode` → `Ace Chemicals Violet` → `Cryo Sonar` → `Oracle Emerald` → `Utility Belt Brass`, with `Scarecrow Alert` (`#FF5C6C`) for mismatched brackets.
+Every variant maps code semantics consistently so ADHD context switching stays effortless across languages:
 
----
+- **Nomex Kevlar (`#15171A`) & Parchment (`#D8D6CF`):** Zero-glare canvas and neutral identifiers.
+- **Signal Gold (`#F0C946`):** Classes, types, interfaces, active cursor, and active line number.
+- **Detective Blue (`#74AEEB`):** Functions, methods, HTML/JSX tags, and IaC resources.
+- **Oracle Emerald (`#63C794`) & Alert Crimson (`#E86A74`):** Strings, `git diff` additions/deletions, and test telemetry.
+- **Cryo Sonar Cyan (`#68C5CE`), Utility Brass (`#E29754`), Noir Violet (`#B695E8`):** Operators/YAML keys, constants/parameters, and control keywords.
+- **2027 AI Agent & Diagnostic Tokens:** Native theming for `inlineChat`, `chat`, `agentsChatInput`, `editorGhostText`, `editorStickyScroll`, `editorInlayHint`, 6-level bracket pairs, and `terminalCommandDecoration`.
 
-## Design Principles
-
-1. **Zero `#000000` / `#FFFFFF` Halation** — Eliminates astigmatism blooming and screen glare during long night sessions.
-2. **OKLCH Perceptual Balance** — Functions (`Detective Mode`), strings (`Oracle Emerald`), keywords (`Ace Chemicals Violet`), operators (`Cryo Sonar`), constants (`Utility Belt Brass`), and types (`GCPD Signal`) sit in harmonized luminance bands.
-3. **True ANSI Semantic Separation** — `Red Hood Crimson` and `Oracle Emerald` maintain >110°–160° hue separation for `git diff`, pytest, CI, and Kubernetes logs.
-4. **2027 AI Agent Ready** — Native styling for `inlineChat`, `chat`, `agentsChatInput`, `editorGhostText`, `editorStickyScroll`, `editorInlayHint`, `diffEditor`, and `terminalCommandDecoration`.
-
----
-
-## Font Stack & Dyslexia / Readability Presets
-
-Default typography keeps **Monaspace Neon** (+ **Monaspace Radon** italics), with ready-to-use configs in [`ports/ide-settings/font-presets.json`](ports/ide-settings/font-presets.json) and [`ports/linux-fontconfig/70-gotham-noir-fonts.conf`](ports/linux-fontconfig/70-gotham-noir-fonts.conf):
-
-1. **Monaspace Neon + Radon** *(Default)* — GitHub Texture Healing (`+calt +ss01..ss03 +zero +cv10`).
-2. **Monaspace Argon + Radon** — Wider humanist proportions for enhanced dyslexia legibility.
-3. **Intel One Mono** — Designed by Frere-Jones Type to eliminate `b/d/p/q` and `1/l/I` confusion.
-4. **Atkinson Hyperlegible Mono** — Braille Institute's 2025 monospaced release (SIL OFL) for maximum homoglyph clarity.
-5. **Commit Mono** — Ultra-neutral geometry with customizable alternates.
+**Dyslexia & Readability Font Presets** in [`ports/ide-settings/font-presets.json`](ports/ide-settings/font-presets.json) and [`ports/linux-fontconfig/70-gotham-noir-fonts.conf`](ports/linux-fontconfig/70-gotham-noir-fonts.conf): **Monaspace Neon + Radon** (default Texture Healing), **Monaspace Argon**, **Intel One Mono**, **Atkinson Hyperlegible Mono**, and **Commit Mono**.
 
 ---
 
 ## Supported Targets
 
-| Platform | Location | Format |
+| Target | Location | Format |
 | :--- | :--- | :--- |
-| **VS Code / Cursor / Windsurf / Antigravity IDE** | [`packages/vscode/`](packages/vscode/) | Publishable `.vsix` extension (all 4 lore variants) |
+| **VS Code / Cursor / Windsurf / Antigravity IDE** | [`packages/vscode/`](packages/vscode/) | Publishable `.vsix` extension (all 4 variants) |
 | **Zed** | [`packages/zed/`](packages/zed/) | Official `v0.2.0` theme family JSON + `extension.toml` |
-| **Regular Antigravity (Native Appearance)** | [`ports/antigravity-app/`](ports/antigravity-app/) | 3-color presets (`Background`, `Foreground`, `Accent`, `Contrast`) |
-| **Ghostty** (macOS & Linux) | [`ports/ghostty/`](ports/ghostty/) | Native Ghostty theme files (`ghostty +validate-config` verified) |
-| **Warp** | [`ports/warp/`](ports/warp/) | `warpdotdev/themes` YAML files |
-| **Alacritty** | [`ports/alacritty/`](ports/alacritty/) | Standalone `.toml` themes + full `alacritty.toml` |
-| **WezTerm** | [`ports/wezterm/`](ports/wezterm/) | Color scheme `.toml` files + `wezterm.lua` |
-| **Kitty** | [`ports/kitty/`](ports/kitty/) | `kitty-themes` metadata `.conf` files + `kitty.conf` |
-| **iTerm2** | [`ports/iterm2/`](ports/iterm2/) | Apple XML `.itermcolors` + Dynamic Profiles JSON |
-| **macOS Terminal.app** | [`ports/macos-terminal/`](ports/macos-terminal/) | Native XML `.terminal` plists (`NSKeyedArchiver`) + installer |
-| **Windows Terminal** | [`ports/windows-terminal/`](ports/windows-terminal/) | `gotham-noir-schemes.json` |
-| **tmux / Zsh / Fontconfig** | [`ports/tmux/`](ports/tmux/), [`ports/zsh/`](ports/zsh/), [`ports/linux-fontconfig/`](ports/linux-fontconfig/) | Split dimming, steady block cursor, `LS_COLORS` |
-| **Paradev (Superset)** | [`ports/paradev/`](ports/paradev/) | Paradev custom theme definitions |
+| **Regular Antigravity (Native Appearance)** | [`ports/antigravity-app/`](ports/antigravity-app/) | Native 3-color presets (`Background`, `Foreground`, `Accent`, `Contrast`) |
+| **Ghostty** (macOS & Linux) | [`ports/ghostty/`](ports/ghostty/) | Native themes (`ghostty +validate-config` verified) |
+| **Warp / Alacritty / WezTerm / Kitty** | [`ports/warp/`](ports/warp/), [`ports/alacritty/`](ports/alacritty/), [`ports/wezterm/`](ports/wezterm/), [`ports/kitty/`](ports/kitty/) | YAML, TOML, Lua, and metadata `.conf` ports |
+| **iTerm2 / macOS Terminal.app / Windows Terminal** | [`ports/iterm2/`](ports/iterm2/), [`ports/macos-terminal/`](ports/macos-terminal/), [`ports/windows-terminal/`](ports/windows-terminal/) | `.itermcolors`, XML `.terminal` plists, JSON schemes |
+| **tmux / Zsh / Fontconfig / Paradev** | [`ports/tmux/`](ports/tmux/), [`ports/zsh/`](ports/zsh/), [`ports/linux-fontconfig/`](ports/linux-fontconfig/), [`ports/paradev/`](ports/paradev/) | Split dimming, `LS_COLORS`, hinting rules, Paradev JSON |
 
 ---
 
-## Build, Verify & Package Locally
+## Build and Contribute
+
+Regenerate every port from [`palettes/`](palettes/), run the contrast + E2E test suite, and build the `.vsix` locally:
 
 ```bash
 python3 scripts/build.py
@@ -85,8 +126,7 @@ python3 -m unittest discover -s tests -v
 cd packages/vscode && npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix
 ```
 
-See [`PUBLISH.md`](PUBLISH.md) for copy-paste publishing commands.
-
-## License
-
-[MIT](LICENSE)
+- Maintainer: [`@thezaynahmed`](https://github.com/thezaynahmed)
+- Contributing & Publishing: See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`PUBLISH.md`](PUBLISH.md), or open an issue on [GitHub Issues](https://github.com/thezaynahmed/gotham-noir/issues).
+- Independent Project Notice: Gotham Noir is an independent, original open-source color system created by Zain Ahmed and is not affiliated with or endorsed by any studio or publisher.
+- License: [MIT](LICENSE)

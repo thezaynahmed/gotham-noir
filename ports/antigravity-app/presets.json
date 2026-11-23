@@ -6,7 +6,7 @@
       "background": "#15171A",
       "foreground": "#D8D6CF",
       "accent": "#F0C946",
-      "lore": "Detective Comics #27 (1939) / Batman: Year One (1987) / '89 Kevlar"
+      "note": "Matte Kevlar charcoal + rooftop signal gold (1939/1987 noir)"
     },
     {
       "name": "Gotham Noir - Batcomputer",
@@ -14,7 +14,7 @@
       "background": "#101215",
       "foreground": "#DCE0E5",
       "accent": "#F5D042",
-      "lore": "Sub-Level 04 Batcave Mainframe / Wayne Enterprises Applied Sciences / Oracle CRT"
+      "note": "Sub-level OLED obsidian control plane + emerald telemetry"
     },
     {
       "name": "Gotham Noir - Arkham Slate",
@@ -22,7 +22,7 @@
       "background": "#1D1F21",
       "foreground": "#DAD5C7",
       "accent": "#E6C15A",
-      "lore": "Arkham Asylum (1989) / Detective Mode Cowl HUD / Narrows Fog"
+      "note": "Weathered warm slate + antique gold for 3 AM zero-glare"
     },
     {
       "name": "Gotham Noir - Vengeance",
@@ -30,7 +30,7 @@
       "background": "#151417",
       "foreground": "#DDD8D5",
       "accent": "#E5535C",
-      "lore": "The Batman (2022) / Mask of the Phantasm (1993) / Red Hood"
+      "note": "Rain-soaked dark chrome + tactical crimson flare"
     }
   ]
 }
