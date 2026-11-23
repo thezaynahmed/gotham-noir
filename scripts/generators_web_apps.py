@@ -180,6 +180,7 @@ def _write_github_userstyle(flagship: dict, root: Path) -> None:
 @version      1.0.0
 @description  Anti-halation Gotham Noir Year One dark theme for GitHub UI, diffs, and code blocks.
 @author       Zain Ahmed (https://zainahmed.net/)
+@homepageURL  https://gothamnoir.zainahmed.net
 @license      MIT
 ==/UserStyle== */
 
@@ -275,6 +276,7 @@ def _write_linear(palettes: list[dict], root: Path) -> None:
 @version      1.0.0
 @description  Gotham Noir Year One syntax colors for Linear code blocks and diffs.
 @author       Zain Ahmed (https://zainahmed.net/)
+@homepageURL  https://gothamnoir.zainahmed.net
 @license      MIT
 ==/UserStyle== */
 
@@ -502,7 +504,7 @@ def _write_shadcn(palettes: list[dict], root: Path) -> None:
 
     readme = """# Gotham Noir for shadcn/ui
 
-Install directly via the shadcn CLI registry item, or import [`gotham-noir.css`](gotham-noir.css) into `globals.css`.
+Install directly via the shadcn CLI registry item, or import [`gotham-noir.css`](gotham-noir.css) into `globals.css`. Live interactive preview and WebMCP control deck: **[gothamnoir.zainahmed.net](https://gothamnoir.zainahmed.net)**.
 
 ## Install with shadcn CLI
 
@@ -534,7 +536,7 @@ def _write_palette_and_fonts(palettes: list[dict], root: Path) -> None:
         ]
         return "\n".join(f"  --gn-{k}: {v};" for k, v in pairs)
 
-    blocks = [f"/* Gotham Noir CSS Palette Tokens (https://github.com/thezaynahmed/gotham-noir) */\n:root,\n[data-gotham-theme=\"year-one\"] {{\n{css_vars(palettes[0])}\n}}"]
+    blocks = [f"/* Gotham Noir CSS Palette Tokens (https://gothamnoir.zainahmed.net | https://github.com/thezaynahmed/gotham-noir) */\n:root,\n[data-gotham-theme=\"year-one\"] {{\n{css_vars(palettes[0])}\n}}"]
     for pal in palettes[1:]:
         key = pal["slug"].replace("gotham-noir-", "")
         blocks.append(f"[data-gotham-theme=\"{key}\"] {{\n{css_vars(pal)}\n}}")

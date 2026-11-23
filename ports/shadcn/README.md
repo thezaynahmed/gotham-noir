@@ -1,6 +1,6 @@
 # Gotham Noir for shadcn/ui
 
-Install directly via the shadcn CLI registry item, or import [`gotham-noir.css`](gotham-noir.css) into `globals.css`.
+Install directly via the shadcn CLI registry item, or import [`gotham-noir.css`](gotham-noir.css) into `globals.css`. Live interactive preview and WebMCP control deck: **[gothamnoir.zainahmed.net](https://gothamnoir.zainahmed.net)**.
 
 ## Install with shadcn CLI
 

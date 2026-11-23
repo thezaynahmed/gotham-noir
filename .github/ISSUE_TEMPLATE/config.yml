@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Gotham Noir Website
+    url: https://gothamnoir.zainahmed.net
+    about: Interactive theme preview, APCA contrast lab, and install commands.
   - name: Report a Security Vulnerability
     url: https://github.com/thezaynahmed/gotham-noir/security/advisories/new
     about: Privately disclose security issues instead of opening a public issue.

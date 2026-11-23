@@ -5,7 +5,7 @@ description: Installs, configures, customizes, and builds the Gotham Noir anti-h
 
 # Gotham Noir Theme Skill
 
-Apply, install, or extend **Gotham Noir** (4 anti-halation OKLCH + APCA dark variants) from its single-source-of-truth repository (`thezaynahmed/gotham-noir`).
+Apply, install, or extend **Gotham Noir** (4 anti-halation OKLCH + APCA dark variants) from its live site (https://gothamnoir.zainahmed.net) and single-source-of-truth repository (`thezaynahmed/gotham-noir`).
 
 ## Variant Selection
 
@@ -62,4 +62,5 @@ Or import `ports/palette/gotham-noir.css` (alias `ports/palette/gotham.css`) and
 
 ## Additional Resources
 
+- Interactive preview & install deck: https://gothamnoir.zainahmed.net
 - Complete token values and contrast metrics: [references/palettes.md](references/palettes.md)
