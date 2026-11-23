@@ -1,0 +1,8 @@
+id = "gotham-noir"
+name = "Gotham Noir"
+description = "4 dark-only nocturnal themes (Gotham Noir, Obsidian, Slate, Crimson) calibrated with OKLCH, APCA contrast, zero halation, and AI/MLOps/DevOps syntax."
+version = "1.0.0"
+schema_version = 1
+authors = ["Zain Ahmed <thezaynahmed@users.noreply.github.com>"]
+repository = "https://github.com/thezaynahmed/gotham-noir"
+themes = ["themes/gotham-noir.json"]

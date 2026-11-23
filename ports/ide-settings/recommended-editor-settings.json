@@ -1,0 +1,12 @@
+{
+  "workbench.colorTheme": "Gotham Noir - Year One",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.stickyScroll.enabled": true,
+  "editor.semanticHighlighting.enabled": true,
+  "editor.cursorBlinking": "solid",
+  "editor.lineHeight": 1.5,
+  "editor.renderWhitespace": "boundary",
+  "editor.fontFamily": "'Monaspace Neon', 'Intel One Mono', 'Atkinson Hyperlegible Mono', monospace",
+  "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'zero', 'cv10'"
+}

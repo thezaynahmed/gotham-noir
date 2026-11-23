@@ -1,0 +1,35 @@
+name: Validate Gotham Noir
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Pillow & zsh
+        run: |
+          pip install pillow
+          sudo apt-get update && sudo apt-get install -y zsh
+      - name: Build SSOT targets & verify WCAG/APCA contrast
+        run: python3 scripts/build.py
+      - name: Validate shell scripts
+        run: |
+          bash -n ports/macos-terminal/apply-macos-terminal.sh
+          zsh -n ports/zsh/gotham-noir-zsh.zsh
+      - name: Package VS Code / Open VSX VSIX
+        working-directory: packages/vscode
+        run: npx --yes @vscode/vsce package -o gotham-noir-1.0.0.vsix && npx --yes @vscode/vsce ls
+      - name: Run full E2E unit test suite
+        run: python3 -m unittest discover -s tests -v
+      - name: Ensure generated text outputs have no uncommitted drift
+        run: git diff --exit-code -- . ':(exclude)*.png'

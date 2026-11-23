@@ -1,0 +1,14 @@
+[metadata]
+name = "Gotham Noir - Vengeance"
+author = "Zain Ahmed"
+
+[colors]
+foreground = "#ddd8d5"
+background = "#151417"
+cursor_bg = "#e5535c"
+cursor_fg = "#f8f4f5"
+cursor_border = "#e5535c"
+selection_fg = "#f0ecea"
+selection_bg = "#3a2c33"
+ansi = ["#151417", "#ef6c74", "#6ec798", "#e8be54", "#7baee6", "#be9ae6", "#6fc2ca", "#ddd8d5"]
+brights = ["#918994", "#f68e94", "#87d7ad", "#f2ce74", "#9ac2ee", "#cfb2ee", "#8ad2d9", "#f0ecea"]

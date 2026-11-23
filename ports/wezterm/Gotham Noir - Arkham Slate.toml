@@ -1,0 +1,14 @@
+[metadata]
+name = "Gotham Noir - Arkham Slate"
+author = "Zain Ahmed"
+
+[colors]
+foreground = "#dad5c7"
+background = "#1d1f21"
+cursor_bg = "#e6c15a"
+cursor_fg = "#16181a"
+cursor_border = "#e6c15a"
+selection_fg = "#ece7da"
+selection_bg = "#373e47"
+ansi = ["#1d1f21", "#e37370", "#88c082", "#e6c15a", "#80b0dc", "#bc9cd9", "#74bfbd", "#dad5c7"]
+brights = ["#929690", "#ec918f", "#a0cfa0", "#eed27e", "#9dc3e6", "#ceb4e5", "#92d1cf", "#ece7da"]

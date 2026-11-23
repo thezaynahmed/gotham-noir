@@ -1,0 +1,14 @@
+[metadata]
+name = "Gotham Noir - Batcomputer"
+author = "Zain Ahmed"
+
+[colors]
+foreground = "#dce0e5"
+background = "#101215"
+cursor_bg = "#f5d042"
+cursor_fg = "#0e1013"
+cursor_border = "#f5d042"
+selection_fg = "#eff2f6"
+selection_bg = "#2b3440"
+ansi = ["#101215", "#ee6b78", "#56cca0", "#f5d042", "#72b4f5", "#bc9bf0", "#5ecad6", "#dce0e5"]
+brights = ["#828a96", "#f68e99", "#73dcb5", "#fae06c", "#94c8fa", "#ceb4f5", "#7fdae3", "#eff2f6"]

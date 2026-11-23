@@ -1,0 +1,42 @@
+{
+  "default": {
+    "name": "Monaspace Neon + Radon (Default)",
+    "editor.fontFamily": "'Monaspace Neon', 'Intel One Mono', 'Atkinson Hyperlegible Mono', monospace",
+    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'zero', 'cv10'",
+    "editor.lineHeight": 1.5,
+    "ghostty_font_family": "Monaspace Neon",
+    "ghostty_font_family_italic": "Monaspace Radon",
+    "notes": "Texture Healing (+calt) prevents wall-of-text crowding while keeping crisp modern structure."
+  },
+  "monaspace_argon": {
+    "name": "Monaspace Argon + Radon (Wider Humanist)",
+    "editor.fontFamily": "'Monaspace Argon', 'Monaspace Neon', monospace",
+    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'zero', 'cv10'",
+    "editor.lineHeight": 1.55,
+    "ghostty_font_family": "Monaspace Argon",
+    "ghostty_font_family_italic": "Monaspace Radon",
+    "notes": "Wider humanist proportions improve letter separation for dyslexia."
+  },
+  "intel_one_mono": {
+    "name": "Intel One Mono (Low-Vision & Dyslexia Accessibility)",
+    "editor.fontFamily": "'Intel One Mono', 'Monaspace Neon', monospace",
+    "editor.fontWeight": "500",
+    "editor.lineHeight": 1.55,
+    "ghostty_font_family": "Intel One Mono",
+    "notes": "Designed by Frere-Jones Type specifically to eliminate b/d/p/q and 1/l/I ambiguity."
+  },
+  "atkinson_hyperlegible_mono": {
+    "name": "Atkinson Hyperlegible Mono (Braille Institute 2025)",
+    "editor.fontFamily": "'Atkinson Hyperlegible Mono', 'Monaspace Neon', monospace",
+    "editor.lineHeight": 1.55,
+    "ghostty_font_family": "Atkinson Hyperlegible Mono",
+    "notes": "Maximum homoglyph distinction under SIL Open Font License."
+  },
+  "commit_mono": {
+    "name": "Commit Mono (Neutral Engineering)",
+    "editor.fontFamily": "'Commit Mono', 'Monaspace Neon', monospace",
+    "editor.lineHeight": 1.5,
+    "ghostty_font_family": "Commit Mono",
+    "notes": "Ultra-neutral geometric proportions with customizable alternates."
+  }
+}

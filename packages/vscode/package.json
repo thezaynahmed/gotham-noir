@@ -1,0 +1,76 @@
+{
+  "name": "gotham-noir",
+  "displayName": "Gotham Noir",
+  "description": "4 lore-accurate dark-only Batman-inspired nocturnal themes (Year One, Batcomputer, Arkham Slate, Vengeance) engineered with OKLCH perceptual balance, APCA contrast, zero #000/#fff halation, 6-level brackets, and 2027 AI Agent/MLOps/DevOps tokens.",
+  "version": "1.0.0",
+  "publisher": "thezaynahmed",
+  "author": {
+    "name": "Zain Ahmed",
+    "url": "https://github.com/thezaynahmed"
+  },
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thezaynahmed/gotham-noir.git"
+  },
+  "homepage": "https://github.com/thezaynahmed/gotham-noir",
+  "bugs": {
+    "url": "https://github.com/thezaynahmed/gotham-noir/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "dark",
+    "noir",
+    "gotham",
+    "batman",
+    "dark-knight",
+    "year-one",
+    "batcomputer",
+    "arkham",
+    "vengeance",
+    "detective",
+    "oracle",
+    "wayne",
+    "dyslexia",
+    "adhd",
+    "accessibility",
+    "oklch",
+    "apca",
+    "mlops",
+    "devops"
+  ],
+  "galleryBanner": {
+    "color": "#15171A",
+    "theme": "dark"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Gotham Noir - Year One",
+        "uiTheme": "vs-dark",
+        "path": "./themes/gotham-noir-year-one-color-theme.json"
+      },
+      {
+        "label": "Gotham Noir - Batcomputer",
+        "uiTheme": "vs-dark",
+        "path": "./themes/gotham-noir-batcomputer-color-theme.json"
+      },
+      {
+        "label": "Gotham Noir - Arkham Slate",
+        "uiTheme": "vs-dark",
+        "path": "./themes/gotham-noir-arkham-slate-color-theme.json"
+      },
+      {
+        "label": "Gotham Noir - Vengeance",
+        "uiTheme": "vs-dark",
+        "path": "./themes/gotham-noir-vengeance-color-theme.json"
+      }
+    ]
+  }
+}
